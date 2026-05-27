@@ -260,29 +260,29 @@ This is the first app-owned database layer in the project, so there is no legacy
 
 #### Automated
 
-- [x] 1.1 Local Supabase applies the new schema cleanly
-- [x] 1.2 Astro types regenerate successfully after the schema/config additions
-- [x] 1.3 Lint passes with the new migration/config files in place
-- [x] 1.4 Build passes with no regressions from the storage foundation changes
+- [x] 1.1 Local Supabase applies the new schema cleanly — e8fb499
+- [x] 1.2 Astro types regenerate successfully after the schema/config additions — e8fb499
+- [x] 1.3 Lint passes with the new migration/config files in place — e8fb499
+- [x] 1.4 Build passes with no regressions from the storage foundation changes — e8fb499
 
 #### Manual
 
-- [x] 1.5 Supabase Studio shows both tables with the expected columns
-- [x] 1.6 RLS policies are visibly present for both tables and scoped to authenticated users
+- [x] 1.5 Supabase Studio shows both tables with the expected columns — e8fb499
+- [x] 1.6 RLS policies are visibly present for both tables and scoped to authenticated users — e8fb499
 
 ### Phase 2: Add protected profile and meal data paths
 
 #### Automated
 
-- [x] 2.1 Astro types regenerate successfully after the new routes and helpers
-- [x] 2.2 Lint passes for the new server helpers and endpoints
-- [x] 2.3 Build passes with the new protected data paths wired into the dashboard
+- [x] 2.1 Astro types regenerate successfully after the new routes and helpers — e8fb499
+- [x] 2.2 Lint passes for the new server helpers and endpoints — e8fb499
+- [x] 2.3 Build passes with the new protected data paths wired into the dashboard — e8fb499
 
 #### Manual
 
-- [x] 2.4 An authenticated user can save profile data and see it persist after a full page refresh
-- [x] 2.5 An authenticated user can add a meal journal entry and see it persist after a full page refresh
-- [x] 2.6 A logged-out user cannot reach the protected data experience and is redirected by existing auth middleware
+- [x] 2.4 An authenticated user can save profile data and see it persist after a full page refresh — e8fb499
+- [x] 2.5 An authenticated user can add a meal journal entry and see it persist after a full page refresh — e8fb499
+- [x] 2.6 A logged-out user cannot reach the protected data experience and is redirected by existing auth middleware — e8fb499
 
 ### Phase 3: Replace the placeholder dashboard with the foundation UI
 
