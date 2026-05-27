@@ -288,13 +288,13 @@ This is the first app-owned database layer in the project, so there is no legacy
 
 #### Automated
 
-- [x] 3.1 Astro types regenerate successfully after the new dashboard components
-- [x] 3.2 Lint passes for the new UI components and route integration
-- [x] 3.3 Production build succeeds with the dashboard foundation UI in place
+- [x] 3.1 Astro types regenerate successfully after the new dashboard components — eeb0d50
+- [x] 3.2 Lint passes for the new UI components and route integration — eeb0d50
+- [x] 3.3 Production build succeeds with the dashboard foundation UI in place — eeb0d50
 
 #### Manual
 
-- [x] 3.4 A newly signed-in user can complete the dashboard profile form without leaving `/dashboard`
-- [x] 3.5 The dashboard shows empty states before data exists and persisted data after profile and meal submissions
-- [x] 3.6 Profile data can be edited later, while meal entries remain add-and-read only
-- [x] 3.7 The dashboard still provides a working sign-out path and does not expose another user's data
+- [x] 3.4 A newly signed-in user can complete the dashboard profile form without leaving `/dashboard` — eeb0d50
+- [x] 3.5 The dashboard shows empty states before data exists and persisted data after profile and meal submissions — eeb0d50
+- [x] 3.6 Profile data can be edited later, while meal entries remain add-and-read only — eeb0d50
+- [x] 3.7 The dashboard still provides a working sign-out path and does not expose another user's data — eeb0d50
