@@ -1,0 +1,25 @@
+---
+import type { ProfileRecord } from "@/lib/nutrition-records";
+import ProfileForm from "@/components/profile/ProfileForm.astro";
+import ProfileSummary from "@/components/profile/ProfileSummary.astro";
+
+interface Props {
+  profile: ProfileRecord | null;
+}
+
+const { profile } = Astro.props;
+---
+
+<section class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-white">Profile</h2>
+    <p class="mt-1 text-sm text-blue-100/60">
+      Save the core fields needed for the next calorie-tracking slice. Empty fields stay optional.
+    </p>
+  </div>
+
+  <div class="space-y-5">
+    <ProfileSummary profile={profile} />
+    <ProfileForm profile={profile} />
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import type { MealRecord } from "@/lib/nutrition-records";
+import MealEntryForm from "@/components/meals/MealEntryForm.astro";
+import MealHistory from "@/components/meals/MealHistory.astro";
+
+interface Props {
+  meals: MealRecord[];
+}
+
+const { meals } = Astro.props;
+---
+
+<section class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-white">Meal journal</h2>
+    <p class="mt-1 text-sm text-blue-100/60">
+      Add free-form meal entries now; calorie and macro enrichment will come in later slices.
+    </p>
+  </div>
+
+  <div class="space-y-6">
+    <MealEntryForm />
+    <MealHistory meals={meals} />
+  </div>
+</section>

@@ -1,0 +1,99 @@
+---
+import type { ProfileRecord } from "@/lib/nutrition-records";
+
+interface Props {
+  profile: ProfileRecord | null;
+}
+
+const { profile } = Astro.props;
+---
+
+<form method="POST" action="/api/profile" class="grid gap-4 md:grid-cols-2">
+  <label class="block text-sm text-blue-100/80">
+    Age
+    <input
+      class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
+      type="number"
+      name="age"
+      min="0"
+      max="150"
+      value={profile?.age ?? ""}
+      placeholder="Optional"
+    />
+  </label>
+
+  <label class="block text-sm text-blue-100/80">
+    Sex
+    <select
+      name="sex"
+      class="mt-1 w-full rounded-lg border border-white/20 bg-slate-950/40 px-3 py-2 text-white focus:border-purple-400 focus:outline-none"
+    >
+      <option value="">Optional</option>
+      <option value="male" selected={profile?.sex === "male"}>Male</option>
+      <option value="female" selected={profile?.sex === "female"}>Female</option>
+      <option value="other" selected={profile?.sex === "other"}>Other</option>
+      <option value="prefer_not_to_say" selected={profile?.sex === "prefer_not_to_say"}>Prefer not to say</option>
+    </select>
+  </label>
+
+  <label class="block text-sm text-blue-100/80">
+    Current weight (kg)
+    <input
+      class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
+      type="number"
+      name="current_weight"
+      min="0"
+      step="0.01"
+      value={profile?.current_weight ?? ""}
+      placeholder="Optional"
+    />
+  </label>
+
+  <label class="block text-sm text-blue-100/80">
+    Height (cm)
+    <input
+      class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
+      type="number"
+      name="height"
+      min="0"
+      step="0.01"
+      value={profile?.height ?? ""}
+      placeholder="Optional"
+    />
+  </label>
+
+  <label class="block text-sm text-blue-100/80">
+    Target weight (kg)
+    <input
+      class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
+      type="number"
+      name="target_weight"
+      min="0"
+      step="0.01"
+      value={profile?.target_weight ?? ""}
+      placeholder="Optional"
+    />
+  </label>
+
+  <label class="block text-sm text-blue-100/80">
+    Manual daily calorie limit
+    <input
+      class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
+      type="number"
+      name="manual_daily_calorie_limit"
+      min="1"
+      step="1"
+      value={profile?.manual_daily_calorie_limit ?? ""}
+      placeholder="Optional"
+    />
+  </label>
+
+  <div class="md:col-span-2 flex justify-end">
+    <button
+      type="submit"
+      class="rounded-lg border border-white/20 bg-purple-500/80 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
+    >
+      Save profile
+    </button>
+  </div>
+</form>

@@ -1,0 +1,23 @@
+---
+type Variant = "error" | "success";
+
+interface Props {
+  message: string;
+  prefix?: string;
+  variant?: Variant;
+}
+
+const { message, prefix, variant = "error" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "rounded-xl border px-4 py-3 text-sm",
+    variant === "error"
+      ? "border-red-400/40 bg-red-500/10 text-red-100"
+      : "border-emerald-400/40 bg-emerald-500/10 text-emerald-100",
+  ]}
+>
+  {prefix ? <strong>{prefix}: </strong> : null}
+  {message}
+</div>

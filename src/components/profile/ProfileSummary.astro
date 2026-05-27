@@ -1,0 +1,54 @@
+---
+import type { ProfileRecord } from "@/lib/nutrition-records";
+
+interface Props {
+  profile: ProfileRecord | null;
+}
+
+const { profile } = Astro.props;
+
+const fields = [
+  { label: "Age", value: profile?.age ? `${profile.age}` : null },
+  {
+    label: "Sex",
+    value: profile?.sex ? profile.sex.replaceAll("_", " ") : null,
+  },
+  {
+    label: "Current weight",
+    value: profile?.current_weight ? `${profile.current_weight} kg` : null,
+  },
+  { label: "Height", value: profile?.height ? `${profile.height} cm` : null },
+  {
+    label: "Target weight",
+    value: profile?.target_weight ? `${profile.target_weight} kg` : null,
+  },
+  {
+    label: "Manual calorie limit",
+    value: profile?.manual_daily_calorie_limit ? `${profile.manual_daily_calorie_limit} kcal` : null,
+  },
+].filter((field) => field.value);
+---
+
+<div class="rounded-xl border border-white/10 bg-slate-950/20 p-4">
+  <div class="mb-3 flex items-center justify-between gap-3">
+    <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-blue-100/60">Saved profile</h3>
+    {profile && <span class="text-xs text-blue-100/50">Last updated {new Date(profile.updated_at).toLocaleString("en-GB")}</span>}
+  </div>
+
+  {
+    fields.length > 0 ? (
+      <dl class="grid gap-3 sm:grid-cols-2">
+        {fields.map((field) => (
+          <div class="rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+            <dt class="text-xs uppercase tracking-[0.16em] text-blue-100/50">{field.label}</dt>
+            <dd class="mt-1 text-sm text-white">{field.value}</dd>
+          </div>
+        ))}
+      </dl>
+    ) : (
+      <div class="rounded-lg border border-dashed border-white/15 bg-white/5 px-4 py-5 text-sm text-blue-100/60">
+        No profile data saved yet. Fill the form below to persist the first dashboard profile.
+      </div>
+    )
+  }
+</div>
