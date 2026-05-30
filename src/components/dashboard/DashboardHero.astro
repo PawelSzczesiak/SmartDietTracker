@@ -1,9 +1,38 @@
 ---
+import type { DailyCalorieWarning, EffectiveDailyCalorieLimit } from "@/lib/nutrition-goals";
+import type { DailyMealSummary } from "@/lib/nutrition-records";
+
 interface Props {
+  calorieWarning?: DailyCalorieWarning;
   email?: string | null;
+  effectiveLimit?: EffectiveDailyCalorieLimit;
+  summary?: DailyMealSummary;
 }
 
-const { email } = Astro.props;
+const { email, effectiveLimit, summary, calorieWarning } = Astro.props;
+
+const statusTone =
+  calorieWarning?.status === "over_limit"
+    ? "border-rose-400/40 bg-rose-500/10 text-rose-100"
+    : calorieWarning?.status === "near_limit"
+      ? "border-amber-400/40 bg-amber-500/10 text-amber-100"
+      : "border-emerald-400/30 bg-emerald-500/10 text-emerald-100";
+
+const statusLabel =
+  calorieWarning?.status === "over_limit"
+    ? "Over daily limit"
+    : calorieWarning?.status === "near_limit"
+      ? "Near daily limit"
+      : calorieWarning?.status === "unavailable"
+        ? "Limit unavailable"
+        : "Within daily budget";
+
+const remainingLabel =
+  calorieWarning?.remainingCalories == null
+    ? "Meal logging stays available while the limit is unavailable."
+    : calorieWarning.remainingCalories >= 0
+      ? `${calorieWarning.remainingCalories} kcal remaining`
+      : `${Math.abs(calorieWarning.remainingCalories)} kcal over budget`;
 ---
 
 <div class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
@@ -14,6 +43,56 @@ const { email } = Astro.props;
     Welcome, <span class="font-semibold text-white">{email}</span>
   </p>
   <p class="mt-1 text-sm text-blue-100/60">
-    This is the first persisted app foundation: profile data and meal journal entries now live on your account.
+    Track today's calories with an automatic daily budget when your profile has enough data, or keep logging meals while
+    you finish the missing fields.
   </p>
+
+  <div class="mt-6 grid gap-4 md:grid-cols-[1.1fr,0.9fr,0.9fr]">
+    <div class:list={`rounded-xl border p-4 ${statusTone}`}>
+      <p class="text-xs font-semibold tracking-[0.2em] text-white/70 uppercase">Status</p>
+      <p class="mt-2 text-lg font-semibold">{statusLabel}</p>
+      {
+        effectiveLimit?.kind === "unavailable" ? (
+          <p class="mt-2 text-sm text-white/80">
+            Complete {effectiveLimit.missingFields.join(", ")} to unlock the automatic calorie limit.
+          </p>
+        ) : (
+          <p class="mt-2 text-sm text-white/80">
+            {effectiveLimit?.sourceLabel ?? "Daily budget"} active for today's calorie tracking.
+          </p>
+        )
+      }
+    </div>
+
+    <div class="rounded-xl border border-white/10 bg-slate-950/30 p-4">
+      <p class="text-xs font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Today's calories</p>
+      <p class="mt-2 text-3xl font-semibold text-white">{summary?.totalCalories ?? 0}</p>
+      <p class="mt-2 text-sm text-blue-100/70">{summary?.mealCount ?? 0} meal entries counted today</p>
+    </div>
+
+    <div class="rounded-xl border border-white/10 bg-slate-950/30 p-4">
+      <p class="text-xs font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Daily limit</p>
+      <p class="mt-2 text-3xl font-semibold text-white">
+        {effectiveLimit?.calories ?? "—"}
+      </p>
+      <p class="mt-2 text-sm text-blue-100/70">{remainingLabel}</p>
+    </div>
+  </div>
+
+  {
+    summary?.hasParsedMacros && (
+      <div class="mt-4 flex flex-wrap gap-3">
+        {[
+          { label: "Protein", value: summary.totalProtein },
+          { label: "Carbs", value: summary.totalCarbs },
+          { label: "Fat", value: summary.totalFat },
+        ].map(({ label, value }) => (
+          <span class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-slate-950/30 px-3 py-1.5">
+            <span class="text-xs font-semibold tracking-[0.15em] text-blue-100/60 uppercase">{label}</span>
+            <span class="text-sm font-semibold text-white">{value.toFixed(1)} g</span>
+          </span>
+        ))}
+      </div>
+    )
+  }
 </div>
