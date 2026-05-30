@@ -1,0 +1,59 @@
+---
+import type { FoodSuggestionsResult } from "@/lib/services/food-suggestions";
+
+interface Props {
+  foodSuggestions: FoodSuggestionsResult;
+}
+
+const { foodSuggestions } = Astro.props;
+---
+
+<section class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
+  <div class="mb-4">
+    <h2 class="text-xl font-semibold text-white">Food suggestions</h2>
+    <p class="mt-1 text-sm text-blue-100/60">Suggestions are matched to your remaining daily calorie budget.</p>
+  </div>
+
+  {
+    foodSuggestions.state === "hidden_unavailable" ? (
+      <div class="rounded-xl border border-amber-400/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+        Daily calorie limit is unavailable. Complete your profile to unlock budget-based food suggestions.
+      </div>
+    ) : foodSuggestions.state === "hidden_over_limit" ? (
+      <div class="rounded-xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+        You are over today's calorie budget. Suggestions are hidden until remaining calories are positive again.
+      </div>
+    ) : (
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center gap-2 text-xs text-blue-100/70 uppercase">
+          <span
+            class:list={[
+              "rounded-full border px-2 py-1 font-semibold tracking-[0.12em]",
+              foodSuggestions.mode === "personalized"
+                ? "border-emerald-300/40 bg-emerald-500/10 text-emerald-100"
+                : "border-blue-300/40 bg-blue-500/10 text-blue-100",
+            ]}
+          >
+            {foodSuggestions.mode === "personalized" ? "Personalized mode" : "Fallback mode"}
+          </span>
+          <span class="text-blue-100/55 normal-case">Remaining: {foodSuggestions.remainingCalories ?? "—"} kcal</span>
+        </div>
+
+        <ul class="grid gap-3 md:grid-cols-3">
+          {foodSuggestions.items.map((item) => (
+            <li class="rounded-xl border border-white/10 bg-slate-950/30 p-4">
+              <p class="text-sm font-semibold text-white">{item.name}</p>
+              <p class="mt-2 text-xs tracking-[0.12em] text-blue-100/60 uppercase">{item.calories} kcal</p>
+            </li>
+          ))}
+        </ul>
+
+        {foodSuggestions.reason === "insufficient_catalog" && (
+          <p class="text-xs text-blue-100/70">
+            Limited options fit the remaining budget right now. Add more meals to improve future suggestions.
+          </p>
+        )}
+      </div>
+    )
+  }
+</section>

@@ -1,29 +1,71 @@
 ---
 import DashboardHero from "@/components/dashboard/DashboardHero.astro";
 import FlashMessage from "@/components/dashboard/FlashMessage.astro";
+import FoodSuggestions from "@/components/dashboard/FoodSuggestions.astro";
 import MealJournalSection from "@/components/meals/MealJournalSection.astro";
 import ProfileSection from "@/components/profile/ProfileSection.astro";
 import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
-import { getProfileForUser, listMealsForUser } from "@/lib/nutrition-records";
+import { getDailyCalorieWarning, getEffectiveDailyCalorieLimit } from "@/lib/nutrition-goals";
+import { getNutritionDayWindow } from "@/lib/nutrition-day";
+import {
+  getDailyMealSummary,
+  getProfileForUser,
+  listMealsForUserOnDay,
+  listSuccessfulMealsForUser,
+  type MealRecord,
+} from "@/lib/nutrition-records";
+import { createRequestContext, logRequestEvent } from "@/lib/request-context";
+import { getFoodSuggestionsForRemainingBudget } from "@/lib/services/food-suggestions";
 import { createClient } from "@/lib/supabase";
 
 const { user } = Astro.locals;
+const requestContext = createRequestContext(Astro.request);
+const dayWindow = getNutritionDayWindow();
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const profileError = Astro.url.searchParams.get("profileError");
 const profileSuccess = Astro.url.searchParams.get("profileSuccess");
 const mealError = Astro.url.searchParams.get("mealError");
 const mealSuccess = Astro.url.searchParams.get("mealSuccess");
+const mealWarning = Astro.url.searchParams.get("mealWarning");
 
 let dashboardError: string | null = null;
 let profile = null;
-let meals = [];
+let meals: MealRecord[] = [];
+let successfulMeals: MealRecord[] = [];
+let dailySummary = getDailyMealSummary([]);
+let effectiveLimit = getEffectiveDailyCalorieLimit(null);
+let calorieWarning = getDailyCalorieWarning(dailySummary, effectiveLimit);
+let foodSuggestions = getFoodSuggestionsForRemainingBudget({
+  calorieWarning,
+  meals: successfulMeals,
+});
 
 if (user && supabase) {
   try {
-    [profile, meals] = await Promise.all([getProfileForUser(supabase, user.id), listMealsForUser(supabase, user.id)]);
+    const [loadedProfile, todaysMeals, allSuccessfulMeals] = await Promise.all([
+      getProfileForUser(supabase, user.id),
+      listMealsForUserOnDay(supabase, user.id, dayWindow),
+      listSuccessfulMealsForUser(supabase, user.id),
+    ]);
+
+    profile = loadedProfile;
+    meals = todaysMeals;
+    successfulMeals = allSuccessfulMeals;
+    dailySummary = getDailyMealSummary(todaysMeals);
+    effectiveLimit = getEffectiveDailyCalorieLimit(profile);
+    calorieWarning = getDailyCalorieWarning(dailySummary, effectiveLimit);
+    foodSuggestions = getFoodSuggestionsForRemainingBudget({
+      calorieWarning,
+      meals: successfulMeals,
+    });
   } catch (error) {
-    dashboardError = error instanceof Error ? error.message : "Unable to load dashboard data";
+    logRequestEvent("error", "dashboard.load.failed", requestContext, {
+      category: "supabase",
+      message: error instanceof Error ? error.message : "Unable to load dashboard data",
+      userId: user.id,
+    });
+    dashboardError = "Unable to load dashboard data";
   }
 }
 ---
@@ -33,14 +75,24 @@ if (user && supabase) {
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-6">
       <Topbar />
 
-      <DashboardHero email={user?.email} />
+      <DashboardHero
+        email={user?.email}
+        summary={dailySummary}
+        effectiveLimit={effectiveLimit}
+        calorieWarning={calorieWarning}
+      />
+
+      <FoodSuggestions foodSuggestions={foodSuggestions} />
 
       {
-        (profileError || mealError || profileSuccess || mealSuccess || dashboardError) && (
+        [profileError, mealError, mealWarning, profileSuccess, mealSuccess, dashboardError].some(
+          (message) => message != null,
+        ) && (
           <div class="space-y-3">
             {dashboardError && <FlashMessage message={dashboardError} />}
             {profileError && <FlashMessage prefix="Profile" message={profileError} />}
             {mealError && <FlashMessage prefix="Meals" message={mealError} />}
+            {mealWarning && <FlashMessage prefix="Meals" message={mealWarning} variant="warning" />}
             {profileSuccess && <FlashMessage message={profileSuccess} variant="success" />}
             {mealSuccess && <FlashMessage message={mealSuccess} variant="success" />}
           </div>
@@ -49,7 +101,7 @@ if (user && supabase) {
 
       <div class="grid gap-6 lg:grid-cols-[1.1fr,0.9fr]">
         <ProfileSection profile={profile} />
-        <MealJournalSection meals={meals} />
+        <MealJournalSection meals={meals} summary={dailySummary} calorieWarning={calorieWarning} />
       </div>
     </div>
   </div>

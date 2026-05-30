@@ -257,6 +257,23 @@ export async function listMealsForUserOnDay(
   return data;
 }
 
+export async function listSuccessfulMealsForUser(client: ServerClient, userId: string, limit = 200) {
+  const clampedLimit = Math.max(1, Math.min(limit, 500));
+  const { data, error } = await client
+    .from("meals")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("parser_status", "success")
+    .order("consumed_at", { ascending: false })
+    .limit(clampedLimit);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
 export function getDailyMealSummary(meals: MealRecord[]): DailyMealSummary {
   return meals.reduce<DailyMealSummary>(
     (summary, meal) => ({
