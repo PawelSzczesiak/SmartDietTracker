@@ -1,7 +1,7 @@
----
+﻿---
 id: remaining-budget-food-suggestions
 title: Remaining budget food suggestions
-status: implementing
+status: implemented
 created: 2026-05-30
 updated: 2026-05-30
 roadmap_id: S-03
@@ -19,3 +19,4 @@ Add dashboard food suggestions that fit the user's remaining calorie budget, wit
 ## Outcome
 
 Users see 3 actionable food suggestions under DashboardHero when calorie limit is available and not exceeded. Suggestions switch from static MVP list to history-based personalization after at least 10 unique ingredient-like tokens are detected from parsed meal texts.
+

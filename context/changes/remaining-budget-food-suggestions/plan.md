@@ -1,4 +1,4 @@
-# Remaining Budget Food Suggestions Implementation Plan
+﻿# Remaining Budget Food Suggestions Implementation Plan
 
 ## Overview
 
@@ -247,48 +247,48 @@ Finalize S-03 by validating edge behavior and documenting heuristics/limitations
 
 ## Progress
 
-> Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles.
+> Convention: `- [ ]` pending, `- [x]` done. Append ` â€” <commit sha>` when a step lands. Do not rename step titles.
 
 ### Phase 1: Build suggestion domain service
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes: `npm run build`
+- [x] 1.1 Lint passes: `npm run lint` — 7d90cf5
+- [x] 1.2 Build passes: `npm run build` — 7d90cf5
 
 #### Manual
 
-- [x] 1.3 Unavailable input returns `hidden_unavailable`
-- [x] 1.4 Over-limit input returns `hidden_over_limit`
-- [x] 1.5 Visible input returns budget-fitting suggestions (`calories <= remaining`)
-- [x] 1.6 Fallback mode before 10 unique tokens
-- [x] 1.7 Personalized mode at/after 10 unique tokens
+- [x] 1.3 Unavailable input returns `hidden_unavailable` — 7d90cf5
+- [x] 1.4 Over-limit input returns `hidden_over_limit` — 7d90cf5
+- [x] 1.5 Visible input returns budget-fitting suggestions (`calories <= remaining`) — 7d90cf5
+- [x] 1.6 Fallback mode before 10 unique tokens — 7d90cf5
+- [x] 1.7 Personalized mode at/after 10 unique tokens — 7d90cf5
 
 ### Phase 2: Integrate suggestions into dashboard UI
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
+- [x] 2.1 Lint passes: `npm run lint` — 7d90cf5
+- [x] 2.2 Build passes: `npm run build` — 7d90cf5
 
 #### Manual
 
-- [x] 2.3 Suggestions section is below Hero and above meal journal
-- [x] 2.4 Unavailable-limit state hides list and shows CTA message
-- [x] 2.5 Over-limit state hides list and shows over-limit message
-- [x] 2.6 Eligible user sees exactly 3 budget-fitting suggestions
-- [x] 2.7 No regressions in Hero and meal journal rendering
+- [x] 2.3 Suggestions section is below Hero and above meal journal — 7d90cf5
+- [x] 2.4 Unavailable-limit state hides list and shows CTA message — 7d90cf5
+- [x] 2.5 Over-limit state hides list and shows over-limit message — 7d90cf5
+- [x] 2.6 Eligible user sees exactly 3 budget-fitting suggestions — 7d90cf5
+- [x] 2.7 No regressions in Hero and meal journal rendering — 7d90cf5
 
 ### Phase 3: Validation, docs, and edge-case hardening
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Build passes: `npm run build`
+- [x] 3.1 Lint passes: `npm run lint` — 7d90cf5
+- [x] 3.2 Build passes: `npm run build` — 7d90cf5
 
 #### Manual
 
-- [x] 3.3 Threshold transition is consistent at exactly 10 unique tokens
-- [x] 3.4 Mixed-language meal text does not break token heuristic
-- [x] 3.5 Suggestions are deterministic for same-day same-input refresh
-- [x] 3.6 Hidden states never render suggestion list
+- [x] 3.3 Threshold transition is consistent at exactly 10 unique tokens — 7d90cf5
+- [x] 3.4 Mixed-language meal text does not break token heuristic — 7d90cf5
+- [x] 3.5 Suggestions are deterministic for same-day same-input refresh — 7d90cf5
+- [x] 3.6 Hidden states never render suggestion list — 7d90cf5
