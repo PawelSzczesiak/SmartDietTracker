@@ -1,0 +1,53 @@
+{
+  "runId": "20260531-191518",
+  "createdAtIso": "2026-05-31T19:15:18.757Z",
+  "baseUrl": "http://127.0.0.1:4323",
+  "sampleSize": 10,
+  "metrics": {
+    "meal_submit": {
+      "sampleSize": 10,
+      "min": 1294.68,
+      "max": 5948.69,
+      "avg": 1951.62,
+      "p50": 1492.92,
+      "p95": 5948.69,
+      "p99": 5948.69
+    },
+    "dashboard_refresh": {
+      "sampleSize": 10,
+      "min": 286.42,
+      "max": 345.52,
+      "avg": 310.05,
+      "p50": 304.78,
+      "p95": 345.52,
+      "p99": 345.52
+    }
+  },
+  "evaluation": {
+    "overall": "warn",
+    "thresholds": {
+      "mealP95Ms": 3000,
+      "dashboardP99Ms": 400
+    },
+    "flows": {
+      "meal_submit": {
+        "status": "warn",
+        "metric": "p95",
+        "measuredMs": 5948.69
+      },
+      "dashboard_refresh": {
+        "status": "pass",
+        "metric": "p99",
+        "measuredMs": 345.52
+      }
+    },
+    "warnings": [
+      {
+        "flow": "meal_submit",
+        "reason": "p95 5948.69ms exceeds 3000ms target",
+        "breakdownHint": "Inspect meals.create span events (`span=parse`, `span=persist`, `span=redirect_ready`).",
+        "recommendation": "If parse dominates, prioritize parser timeout/reliability work; if persist dominates, inspect Supabase latency."
+      }
+    ]
+  }
+}

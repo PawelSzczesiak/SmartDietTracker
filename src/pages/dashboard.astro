@@ -15,12 +15,19 @@ import {
   listSuccessfulMealsForUser,
   type MealRecord,
 } from "@/lib/nutrition-records";
-import { createRequestContext, logRequestEvent } from "@/lib/request-context";
+import {
+  createRequestContext,
+  logRequestDuration,
+  logRequestEvent,
+  startRequestSpan,
+  startRequestTimer,
+} from "@/lib/request-context";
 import { getFoodSuggestionsForRemainingBudget } from "@/lib/services/food-suggestions";
 import { createClient } from "@/lib/supabase";
 
 const { user } = Astro.locals;
 const requestContext = createRequestContext(Astro.request);
+const dashboardLoadStartedAt = startRequestTimer();
 const dayWindow = getNutritionDayWindow();
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const profileError = Astro.url.searchParams.get("profileError");
@@ -44,11 +51,18 @@ let foodSuggestions = getFoodSuggestionsForRemainingBudget({
 
 if (user && supabase) {
   try {
+    const dataFetchSpan = startRequestSpan(requestContext, "data_fetch", {
+      category: "performance",
+      operation: "dashboard.load",
+    });
     const [loadedProfile, todaysMeals, allSuccessfulMeals] = await Promise.all([
       getProfileForUser(supabase, user.id),
       listMealsForUserOnDay(supabase, user.id, dayWindow),
       listSuccessfulMealsForUser(supabase, user.id),
     ]);
+    dataFetchSpan.stop("info", "dashboard.load.span.completed", {
+      userId: user.id,
+    });
 
     profile = loadedProfile;
     meals = todaysMeals;
@@ -57,9 +71,24 @@ if (user && supabase) {
     effectiveLimit = getEffectiveDailyCalorieLimit(profile);
     calorieWarning = getDailyCalorieWarning(dailySummary, effectiveLimit);
     targetPolicy = getTargetCaloriePolicy(profile, effectiveLimit);
+
+    const suggestionsSpan = startRequestSpan(requestContext, "suggestions_compute", {
+      category: "performance",
+      operation: "dashboard.load",
+    });
     foodSuggestions = getFoodSuggestionsForRemainingBudget({
       calorieWarning,
       meals: successfulMeals,
+    });
+    suggestionsSpan.stop("info", "dashboard.load.span.completed", {
+      userId: user.id,
+    });
+
+    logRequestDuration("info", "dashboard.load.duration", requestContext, dashboardLoadStartedAt, {
+      category: "performance",
+      operation: "dashboard.load",
+      outcome: "succeeded",
+      userId: user.id,
     });
   } catch (error) {
     logRequestEvent("error", "dashboard.load.failed", requestContext, {
@@ -67,8 +96,22 @@ if (user && supabase) {
       message: error instanceof Error ? error.message : "Unable to load dashboard data",
       userId: user.id,
     });
+    logRequestDuration("error", "dashboard.load.duration", requestContext, dashboardLoadStartedAt, {
+      category: "performance",
+      operation: "dashboard.load",
+      outcome: "failed",
+      userId: user.id,
+    });
     dashboardError = "Unable to load dashboard data";
   }
+} else {
+  logRequestDuration("info", "dashboard.load.duration", requestContext, dashboardLoadStartedAt, {
+    category: "performance",
+    operation: "dashboard.load",
+    outcome: "skipped",
+    hasUser: Boolean(user),
+    hasSupabaseClient: Boolean(supabase),
+  });
 }
 ---
 

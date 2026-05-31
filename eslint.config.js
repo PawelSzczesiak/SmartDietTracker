@@ -68,6 +68,24 @@ const astroConfig = tseslint.config({
   },
 });
 
+const nodeScriptsConfig = tseslint.config({
+  files: ["scripts/**/*.mjs"],
+  extends: [tseslint.configs.disableTypeChecked],
+  languageOptions: {
+    globals: {
+      console: true,
+      fetch: true,
+      Headers: true,
+      process: true,
+      URL: true,
+      URLSearchParams: true,
+    },
+  },
+  rules: {
+    "no-console": "off",
+  },
+});
+
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
   baseConfig,
@@ -75,5 +93,6 @@ export default tseslint.config(
   eslintPluginAstro.configs["flat/recommended"],
   ...eslintPluginAstro.configs["flat/jsx-a11y-recommended"],
   astroConfig,
+  nodeScriptsConfig,
   eslintPluginPrettier,
 );
