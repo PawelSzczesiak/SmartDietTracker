@@ -25,25 +25,25 @@ To najkrótszy zakres, który jednocześnie pokrywa primary success criterion i 
 
 ## At a glance
 
-| ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
-|---|---|---|---|---|---|
-| F-01 | nutrition-record-foundation | (foundation) konto użytkownika ma trwały rekord profilu i dziennik posiłków gotowe pod pierwszy flow | — | FR-001, FR-002, FR-006 | done |
-| F-02 | performance-verification-path | (foundation) zespół ma ścieżkę weryfikacji wydajności i stabilności dla flow posiłku i dashboardu | S-01 | NFR-01, NFR-02 | proposed |
-| S-01 | first-calorie-logging-flow | użytkownik może zalogować się, uzupełnić profil, dostać limit kalorii, wpisać posiłek tekstem i zobaczyć dzienną sumę oraz ostrzeżenia | F-01 | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007 | done |
-| S-02 | meal-macros-feedback | użytkownik może po wpisaniu posiłku zobaczyć nie tylko kcal, ale też makroskładniki | S-01 | FR-009 | done |
-| S-03 | remaining-budget-food-suggestions | użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii | S-01 | FR-008 | done |
-| F-03 | evidence-based-target-policy | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu | S-01 | FR-011 | proposed |
-| S-04 | target-pace-calorie-adjustment | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem | F-03, S-01 | FR-010, FR-011 | blocked |
+| ID   | Change ID                         | Outcome (user can …)                                                                                                                   | Prerequisites | PRD refs                                                      | Status   |
+| ---- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------- | -------- |
+| F-01 | nutrition-record-foundation       | (foundation) konto użytkownika ma trwały rekord profilu i dziennik posiłków gotowe pod pierwszy flow                                   | —             | FR-001, FR-002, FR-006                                        | done     |
+| F-02 | performance-verification-path     | (foundation) zespół ma ścieżkę weryfikacji wydajności i stabilności dla flow posiłku i dashboardu                                      | S-01          | NFR-01, NFR-02                                                | done     |
+| S-01 | first-calorie-logging-flow        | użytkownik może zalogować się, uzupełnić profil, dostać limit kalorii, wpisać posiłek tekstem i zobaczyć dzienną sumę oraz ostrzeżenia | F-01          | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007 | done     |
+| S-02 | meal-macros-feedback              | użytkownik może po wpisaniu posiłku zobaczyć nie tylko kcal, ale też makroskładniki                                                    | S-01          | FR-009                                                        | done     |
+| S-03 | remaining-budget-food-suggestions | użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii                                        | S-01          | FR-008                                                        | done     |
+| F-03 | evidence-based-target-policy      | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu                                        | S-01          | FR-011                                                        | proposed |
+| S-04 | target-pace-calorie-adjustment    | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem          | F-03, S-01    | FR-010, FR-011                                                | blocked  |
 
 ## Streams
 
-| Stream | Theme | Chain | Note |
-|---|---|---|---|
-| A | Core MVP | `F-01` → `S-01` | Najkrótsza ścieżka do walidacji głównej obietnicy produktu przy celu speed. |
-| B | Richer nutrition feedback | `S-01` → `S-02` | Rozszerza główny flow o większą wartość informacyjną bez zmiany podstawowego zachowania. |
-| C | Smart daily guidance | `S-01` → `S-03` | Dodaje inteligentne sugestie dopiero po potwierdzeniu, że bazowy flow działa. |
-| D | Quality guardrail | `S-01` → `F-02` | Domyka NFR-y po pierwszej walidacji, zamiast blokować start MVP. |
-| E | Safe target pace | `S-01` → `F-03` → `S-04` | Rozszerza produkt o wybór tempa celu, ale wymaga najpierw polityki opartej o bezpieczne zalecenia. |
+| Stream | Theme                     | Chain                    | Note                                                                                               |
+| ------ | ------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------- |
+| A      | Core MVP                  | `F-01` → `S-01`          | Najkrótsza ścieżka do walidacji głównej obietnicy produktu przy celu speed.                        |
+| B      | Richer nutrition feedback | `S-01` → `S-02`          | Rozszerza główny flow o większą wartość informacyjną bez zmiany podstawowego zachowania.           |
+| C      | Smart daily guidance      | `S-01` → `S-03`          | Dodaje inteligentne sugestie dopiero po potwierdzeniu, że bazowy flow działa.                      |
+| D      | Quality guardrail         | `S-01` → `F-02`          | Domyka NFR-y po pierwszej walidacji, zamiast blokować start MVP.                                   |
+| E      | Safe target pace          | `S-01` → `F-03` → `S-04` | Rozszerza produkt o wybór tempa celu, ale wymaga najpierw polityki opartej o bezpieczne zalecenia. |
 
 ## Baseline
 
@@ -82,7 +82,7 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Przy celu speed nie warto tym blokować startu MVP, ale bez jawnej ścieżki weryfikacji kolejne rozszerzenia mogą rozjechać się z NFR-ami.
-- **Status:** proposed
+- **Status:** done
 
 ### F-03: Polityka bezpiecznych progów zmian masy ciała
 
@@ -151,15 +151,15 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 
 ## Backlog Handoff
 
-| Roadmap ID | Change ID | Suggested issue title | Ready for `/10x-plan` | Notes |
-|---|---|---|---|---|
-| F-01 | nutrition-record-foundation | Przygotować trwały rekord profilu i dziennik posiłków pod pierwszy flow | yes | To jedyny fundament bezpośrednio odblokowujący gwiazdę przewodnią |
-| S-01 | first-calorie-logging-flow | Dowieźć pierwszy flow logowania kalorii end-to-end | no | Najpierw musi wylądować F-01 |
-| F-02 | performance-verification-path | Dodać ścieżkę weryfikacji wydajności i stabilności dla flow posiłku | no | Ma sens po uruchomieniu S-01 |
-| S-02 | meal-macros-feedback | Pokazać makroskładniki obok kalorii dla wpisanego posiłku | no | Rozszerzenie podstawowego flow po S-01 |
-| S-03 | remaining-budget-food-suggestions | Zaproponować dodatkowe porcje jedzenia w ramach pozostałego limitu | no | Warstwa smart guidance po walidacji core flow |
-| F-03 | evidence-based-target-policy | Uzgodnić politykę bezpiecznych progów zmian masy ciała dla trybów celu | yes | Decyzja enforcement zamknięta (warning-only + healthy edge limit); do doprecyzowania progi liczbowe |
-| S-04 | target-pace-calorie-adjustment | Dodać wybór tempa celu i dostosowanie limitu kalorii | no | Start dopiero po F-03 |
+| Roadmap ID | Change ID                         | Suggested issue title                                                   | Ready for `/10x-plan` | Notes                                                                                               |
+| ---------- | --------------------------------- | ----------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------- |
+| F-01       | nutrition-record-foundation       | Przygotować trwały rekord profilu i dziennik posiłków pod pierwszy flow | yes                   | To jedyny fundament bezpośrednio odblokowujący gwiazdę przewodnią                                   |
+| S-01       | first-calorie-logging-flow        | Dowieźć pierwszy flow logowania kalorii end-to-end                      | no                    | Najpierw musi wylądować F-01                                                                        |
+| F-02       | performance-verification-path     | Dodać ścieżkę weryfikacji wydajności i stabilności dla flow posiłku     | no                    | Ma sens po uruchomieniu S-01                                                                        |
+| S-02       | meal-macros-feedback              | Pokazać makroskładniki obok kalorii dla wpisanego posiłku               | no                    | Rozszerzenie podstawowego flow po S-01                                                              |
+| S-03       | remaining-budget-food-suggestions | Zaproponować dodatkowe porcje jedzenia w ramach pozostałego limitu      | no                    | Warstwa smart guidance po walidacji core flow                                                       |
+| F-03       | evidence-based-target-policy      | Uzgodnić politykę bezpiecznych progów zmian masy ciała dla trybów celu  | yes                   | Decyzja enforcement zamknięta (warning-only + healthy edge limit); do doprecyzowania progi liczbowe |
+| S-04       | target-pace-calorie-adjustment    | Dodać wybór tempa celu i dostosowanie limitu kalorii                    | no                    | Start dopiero po F-03                                                                               |
 
 ## Open Roadmap Questions
 
