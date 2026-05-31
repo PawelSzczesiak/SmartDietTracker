@@ -11,7 +11,9 @@ const { foodSuggestions } = Astro.props;
 <section class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
   <div class="mb-4">
     <h2 class="text-xl font-semibold text-white">Food suggestions</h2>
-    <p class="mt-1 text-sm text-blue-100/60">Suggestions are matched to your remaining daily calorie budget.</p>
+    <p class="mt-1 text-sm text-blue-100/60">
+      Suggestions are matched to your remaining active daily calorie budget. Goal guidance stays advisory only.
+    </p>
   </div>
 
   {
@@ -21,7 +23,7 @@ const { foodSuggestions } = Astro.props;
       </div>
     ) : foodSuggestions.state === "hidden_over_limit" ? (
       <div class="rounded-xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
-        You are over today's calorie budget. Suggestions are hidden until remaining calories are positive again.
+        You are over today's active calorie budget. Suggestions are hidden until remaining calories are positive again.
       </div>
     ) : (
       <div class="space-y-4">

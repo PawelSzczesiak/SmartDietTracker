@@ -302,38 +302,38 @@ F-03 adds one nullable profile field and no backfill. Existing profiles should r
 
 #### Automated
 
-- [x] 2.1 Astro sync, lint, and build all pass after the policy types and helpers are added
+- [x] 2.1 Astro sync, lint, and build all pass after the policy types and helpers are added — e7d3cb8
 
 #### Manual
 
-- [x] 2.2 Loss and gain goals each resolve to the agreed pace-band mapping for `slow`, `normal`, and `fast`
-- [x] 2.3 Equal current and target weight resolves to maintain/no pace applied with no misleading loss/gain warning
-- [x] 2.4 A manual calorie limit outside the healthy edge shows a warning and recommended healthy edge without being auto-clipped
-- [x] 2.5 Existing near-limit / over-limit daily tracking behavior remains based on the active requested limit
+- [x] 2.2 Loss and gain goals each resolve to the agreed pace-band mapping for `slow`, `normal`, and `fast` — e7d3cb8
+- [x] 2.3 Equal current and target weight resolves to maintain/no pace applied with no misleading loss/gain warning — e7d3cb8
+- [x] 2.4 A manual calorie limit outside the healthy edge shows a warning and recommended healthy edge without being auto-clipped — e7d3cb8
+- [x] 2.5 Existing near-limit / over-limit daily tracking behavior remains based on the active requested limit — e7d3cb8
 
 ### Phase 3: Wire policy into the profile experience
 
 #### Automated
 
-- [x] 3.1 Lint passes with the new profile UI and route integration
-- [x] 3.2 Build passes with the policy data flowing into the profile section
+- [x] 3.1 Lint passes with the new profile UI and route integration — e7d3cb8
+- [x] 3.2 Build passes with the policy data flowing into the profile section — e7d3cb8
 
 #### Manual
 
-- [x] 3.3 A signed-in user can choose a pace in the profile form and see it reflected in the saved profile view
-- [x] 3.4 The profile area shows warning-only guidance for an unsafe manual limit without blocking save
-- [x] 3.5 The profile area shows neutral directional healthy-edge copy for both loss and gain goals
-- [x] 3.6 A maintain/equal-weight profile does not show misleading pace-enforcement copy
+- [x] 3.3 A signed-in user can choose a pace in the profile form and see it reflected in the saved profile view — e7d3cb8
+- [x] 3.4 The profile area shows warning-only guidance for an unsafe manual limit without blocking save — e7d3cb8
+- [x] 3.5 The profile area shows neutral directional healthy-edge copy for both loss and gain goals — e7d3cb8
+- [x] 3.6 A maintain/equal-weight profile does not show misleading pace-enforcement copy — e7d3cb8
 
 ### Phase 4: Surface advisory state in the dashboard
 
 #### Automated
 
-- [ ] 4.1 Lint passes after the dashboard messaging updates
-- [ ] 4.2 Build passes with the dashboard policy summary in place
+- [x] 4.1 Lint passes after the dashboard messaging updates
+- [x] 4.2 Build passes with the dashboard policy summary in place
 
 #### Manual
 
-- [ ] 4.3 Dashboard hero shows the current advisory state after profile save without requiring the user to reopen the profile section
-- [ ] 4.4 Food suggestions and meal tracking still behave against the active requested limit, not the advisory healthy edge
-- [ ] 4.5 No dashboard copy suggests that the app silently capped the user's chosen calorie limit
+- [x] 4.3 Dashboard hero shows the current advisory state after profile save without requiring the user to reopen the profile section
+- [x] 4.4 Food suggestions and meal tracking still behave against the active requested limit, not the advisory healthy edge
+- [x] 4.5 No dashboard copy suggests that the app silently capped the user's chosen calorie limit
