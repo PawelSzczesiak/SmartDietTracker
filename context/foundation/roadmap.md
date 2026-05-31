@@ -180,3 +180,5 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **S-01: użytkownik może zalogować się, uzupełnić profil, dostać limit kalorii, wpisać posiłek tekstem i zobaczyć dzienną sumę oraz ostrzeżenia** — Implemented + reviewed (`impl_reviewed`) on 2026-05-30 → `context/changes/first-calorie-logging-flow/`.
 - **S-02: użytkownik może po wpisaniu posiłku zobaczyć nie tylko kcal, ale też makroskładniki** — Implemented + reviewed (`impl_reviewed`) on 2026-05-30 → `context/changes/meal-macros-feedback/`.
 - **S-03: użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii** — Implemented + reviewed (`impl_reviewed`) on 2026-05-30 → `context/changes/remaining-budget-food-suggestions/`.
+- **F-02: (foundation) zespół ma ścieżkę weryfikacji wydajności i stabilności dla flow posiłku i dashboardu** — Implemented + reviewed on 2026-05-31 → `context/changes/performance-verification-path/`.
+- **F-03: (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu** — Implemented + reviewed (`impl_reviewed`) on 2026-05-31 → `context/changes/evidence-based-target-policy/`.
