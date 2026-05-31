@@ -35,6 +35,7 @@ NFR breaches are visible and actionable (with breakdown and recommendations) but
 ## Implementation Approach
 
 Build the verification path in three layers:
+
 1. add timing instrumentation to the critical server flow,
 2. add a repeatable baseline harness and report artifacts,
 3. operationalize with runbook/manual checklist and non-blocking CI entrypoint.
@@ -269,29 +270,29 @@ Document and operationalize how to run, read, and act on performance verificatio
 
 #### Automated
 
-- [x] 1.1 Astro types remain valid after instrumentation additions
-- [x] 1.2 Lint passes for updated request/route/page files
-- [x] 1.3 Build passes with instrumentation in SSR and API routes
+- [x] 1.1 Astro types remain valid after instrumentation additions — 1487674
+- [x] 1.2 Lint passes for updated request/route/page files — 1487674
+- [x] 1.3 Build passes with instrumentation in SSR and API routes — 1487674
 
 #### Manual
 
-- [x] 1.4 Logs include requestId-linked duration events for meal create path with parser/persist breakdown
-- [x] 1.5 Logs include requestId-linked duration events for dashboard load path
-- [x] 1.6 Existing user-facing behavior remains unchanged
+- [x] 1.4 Logs include requestId-linked duration events for meal create path with parser/persist breakdown — 1487674
+- [x] 1.5 Logs include requestId-linked duration events for dashboard load path — 1487674
+- [x] 1.6 Existing user-facing behavior remains unchanged — 1487674
 
 ### Phase 2: Build repeatable baseline measurement harness
 
 #### Automated
 
-- [ ] 2.1 Baseline script executes and produces JSON + Markdown artifacts via `npm run perf:baseline`
-- [ ] 2.2 Lint passes after script and package updates
-- [ ] 2.3 Build remains green after perf tooling additions
+- [x] 2.1 Baseline script executes and produces JSON + Markdown artifacts via `npm run perf:baseline`
+- [x] 2.2 Lint passes after script and package updates
+- [x] 2.3 Build remains green after perf tooling additions
 
 #### Manual
 
-- [ ] 2.4 Baseline run report shows meal submit and dashboard refresh percentiles
-- [ ] 2.5 Report includes explicit pass/warn evaluation against NFR-01 and NFR-02
-- [ ] 2.6 NFR breach is recorded as non-blocking warning with breakdown and recommendation
+- [x] 2.4 Baseline run report shows meal submit and dashboard refresh percentiles
+- [x] 2.5 Report includes explicit pass/warn evaluation against NFR-01 and NFR-02
+- [x] 2.6 NFR breach is recorded as non-blocking warning with breakdown and recommendation
 
 ### Phase 3: Operationalize verification path (runbook + non-blocking CI)
 
