@@ -76,6 +76,19 @@ const { profile } = Astro.props;
   </label>
 
   <label class="block text-sm text-blue-100/80">
+    Target pace
+    <select
+      name="target_pace"
+      class="mt-1 w-full rounded-lg border border-white/20 bg-slate-950/40 px-3 py-2 text-white focus:border-purple-400 focus:outline-none"
+    >
+      <option value="">Optional</option>
+      <option value="slow" selected={profile?.target_pace === "slow"}>Slow</option>
+      <option value="normal" selected={profile?.target_pace === "normal"}>Normal</option>
+      <option value="fast" selected={profile?.target_pace === "fast"}>Fast</option>
+    </select>
+  </label>
+
+  <label class="block text-sm text-blue-100/80">
     Manual daily calorie limit
     <input
       class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"

@@ -288,15 +288,15 @@ F-03 adds one nullable profile field and no backfill. Existing profiles should r
 
 #### Automated
 
-- [ ] 1.1 Local Supabase applies the new profile schema cleanly
-- [ ] 1.2 Astro types regenerate successfully after the schema change
-- [ ] 1.3 Lint passes with the new profile contract in place
-- [ ] 1.4 Build passes with the extended profile pipeline wired through
+- [x] 1.1 Local Supabase applies the new profile schema cleanly
+- [x] 1.2 Astro types regenerate successfully after the schema change
+- [x] 1.3 Lint passes with the new profile contract in place
+- [x] 1.4 Build passes with the extended profile pipeline wired through
 
 #### Manual
 
-- [ ] 1.5 A signed-in user can save `slow`, `normal`, or `fast` target pace and see it persist after a full page refresh
-- [ ] 1.6 A profile can still be saved when `target_pace` is empty
+- [x] 1.5 A signed-in user can save `slow`, `normal`, or `fast` target pace and see it persist after a full page refresh
+- [x] 1.6 A profile can still be saved when `target_pace` is empty
 
 ### Phase 2: Build the evidence-based policy engine
 

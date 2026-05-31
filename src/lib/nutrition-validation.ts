@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 type ProfileSex = "male" | "female" | "other" | "prefer_not_to_say";
+type TargetPace = "slow" | "normal" | "fast";
 
 function getFormValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -51,6 +52,17 @@ const profileSchema = z
     current_weight: nullableNumberField("Current weight", { min: 0.01 }),
     height: nullableNumberField("Height", { min: 0.01 }),
     target_weight: nullableNumberField("Target weight", { min: 0.01 }),
+    target_pace: z.preprocess(
+      (value) => {
+        if (typeof value !== "string") {
+          return value ?? null;
+        }
+
+        const trimmed = value.trim();
+        return trimmed === "" ? null : trimmed;
+      },
+      z.enum(["slow", "normal", "fast"] satisfies [TargetPace, ...TargetPace[]]).nullable(),
+    ),
     manual_daily_calorie_limit: nullableNumberField("Manual daily calorie limit", { int: true, min: 1 }),
   })
   .transform((values) => ({
@@ -59,6 +71,7 @@ const profileSchema = z
     currentWeight: values.current_weight,
     height: values.height,
     targetWeight: values.target_weight,
+    targetPace: values.target_pace,
     manualDailyCalorieLimit: values.manual_daily_calorie_limit,
   }));
 
@@ -108,6 +121,7 @@ export function parseProfileFormData(formData: FormData) {
     current_weight: getFormValue(formData, "current_weight"),
     height: getFormValue(formData, "height"),
     target_weight: getFormValue(formData, "target_weight"),
+    target_pace: getFormValue(formData, "target_pace"),
     manual_daily_calorie_limit: getFormValue(formData, "manual_daily_calorie_limit"),
   });
 }

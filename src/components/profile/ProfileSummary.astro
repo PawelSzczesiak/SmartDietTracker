@@ -23,6 +23,10 @@ const fields = [
     value: profile?.target_weight != null ? `${profile.target_weight} kg` : null,
   },
   {
+    label: "Target pace",
+    value: profile?.target_pace ?? null,
+  },
+  {
     label: "Manual calorie limit",
     value: profile?.manual_daily_calorie_limit != null ? `${profile.manual_daily_calorie_limit} kcal` : null,
   },

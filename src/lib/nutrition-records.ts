@@ -51,6 +51,7 @@ export async function upsertProfileForUser(client: ServerClient, userId: string,
     current_weight: input.currentWeight,
     height: input.height,
     target_weight: input.targetWeight,
+    target_pace: input.targetPace,
     manual_daily_calorie_limit: input.manualDailyCalorieLimit,
   };
 
