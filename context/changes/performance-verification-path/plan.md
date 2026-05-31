@@ -269,15 +269,15 @@ Document and operationalize how to run, read, and act on performance verificatio
 
 #### Automated
 
-- [ ] 1.1 Astro types remain valid after instrumentation additions
-- [ ] 1.2 Lint passes for updated request/route/page files
-- [ ] 1.3 Build passes with instrumentation in SSR and API routes
+- [x] 1.1 Astro types remain valid after instrumentation additions
+- [x] 1.2 Lint passes for updated request/route/page files
+- [x] 1.3 Build passes with instrumentation in SSR and API routes
 
 #### Manual
 
-- [ ] 1.4 Logs include requestId-linked duration events for meal create path with parser/persist breakdown
-- [ ] 1.5 Logs include requestId-linked duration events for dashboard load path
-- [ ] 1.6 Existing user-facing behavior remains unchanged
+- [x] 1.4 Logs include requestId-linked duration events for meal create path with parser/persist breakdown
+- [x] 1.5 Logs include requestId-linked duration events for dashboard load path
+- [x] 1.6 Existing user-facing behavior remains unchanged
 
 ### Phase 2: Build repeatable baseline measurement harness
 
