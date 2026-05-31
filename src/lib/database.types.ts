@@ -9,6 +9,7 @@ export interface Database {
           current_weight: number | null;
           height: number | null;
           target_weight: number | null;
+          target_pace: "slow" | "normal" | "fast" | null;
           manual_daily_calorie_limit: number | null;
           created_at: string;
           updated_at: string;
@@ -20,6 +21,7 @@ export interface Database {
           current_weight?: number | null;
           height?: number | null;
           target_weight?: number | null;
+          target_pace?: "slow" | "normal" | "fast" | null;
           manual_daily_calorie_limit?: number | null;
           created_at?: string;
           updated_at?: string;
@@ -31,6 +33,7 @@ export interface Database {
           current_weight?: number | null;
           height?: number | null;
           target_weight?: number | null;
+          target_pace?: "slow" | "normal" | "fast" | null;
           manual_daily_calorie_limit?: number | null;
           created_at?: string;
           updated_at?: string;

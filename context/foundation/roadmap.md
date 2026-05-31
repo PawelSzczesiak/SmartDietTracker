@@ -32,8 +32,8 @@ To najkrótszy zakres, który jednocześnie pokrywa primary success criterion i 
 | S-01 | first-calorie-logging-flow        | użytkownik może zalogować się, uzupełnić profil, dostać limit kalorii, wpisać posiłek tekstem i zobaczyć dzienną sumę oraz ostrzeżenia | F-01          | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007 | done     |
 | S-02 | meal-macros-feedback              | użytkownik może po wpisaniu posiłku zobaczyć nie tylko kcal, ale też makroskładniki                                                    | S-01          | FR-009                                                        | done     |
 | S-03 | remaining-budget-food-suggestions | użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii                                        | S-01          | FR-008                                                        | done     |
-| F-03 | evidence-based-target-policy      | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu                                        | S-01          | FR-011                                                        | proposed |
-| S-04 | target-pace-calorie-adjustment    | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem          | F-03, S-01    | FR-010, FR-011                                                | blocked  |
+| F-03 | evidence-based-target-policy      | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu                                        | S-01          | FR-011                                                        | done     |
+| S-04 | target-pace-calorie-adjustment    | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem          | F-03, S-01    | FR-010, FR-011                                                | proposed |
 
 ## Streams
 
@@ -96,7 +96,7 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **Unknowns:**
   - Jakie konkretne progi zmian masy ciała mapujemy na tryby spokojnie / normalnie / szybko dla redukcji i ewentualnego zwiekszania masy? — Owner: product + implementation research. Block: yes.
 - **Risk:** Ta funkcja dotyka rekomendacji zdrowotnych, więc bez jawnej polityki evidence-based łatwo wdrożyć zbyt agresywne lub mylące zalecenia.
-- **Status:** proposed
+- **Status:** done
 
 ## Slices
 
@@ -143,11 +143,11 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **PRD refs:** FR-010, FR-011
 - **Prerequisites:** F-03, S-01
 - **Parallel with:** F-02, S-02, S-03
-- **Blockers:** F-03
+- **Blockers:** —
 - **Unknowns:**
   - Jak mapujemy neutralny komunikat "recommended healthy edge limit for your goal" na finalne teksty UI dla redukcji i zwiekszania masy? — Owner: product + implementation. Block: no.
 - **Risk:** To mocne rozszerzenie wartości produktu, ale wdrożone bez guardrailów zdrowotnych może obniżyć zaufanie użytkownika.
-- **Status:** blocked
+- **Status:** proposed
 
 ## Backlog Handoff
 
@@ -159,7 +159,7 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 | S-02       | meal-macros-feedback              | Pokazać makroskładniki obok kalorii dla wpisanego posiłku               | no                    | Rozszerzenie podstawowego flow po S-01                                                              |
 | S-03       | remaining-budget-food-suggestions | Zaproponować dodatkowe porcje jedzenia w ramach pozostałego limitu      | no                    | Warstwa smart guidance po walidacji core flow                                                       |
 | F-03       | evidence-based-target-policy      | Uzgodnić politykę bezpiecznych progów zmian masy ciała dla trybów celu  | yes                   | Decyzja enforcement zamknięta (warning-only + healthy edge limit); do doprecyzowania progi liczbowe |
-| S-04       | target-pace-calorie-adjustment    | Dodać wybór tempa celu i dostosowanie limitu kalorii                    | no                    | Start dopiero po F-03                                                                               |
+| S-04       | target-pace-calorie-adjustment    | Dodać wybór tempa celu i dostosowanie limitu kalorii                    | yes                   | F-03 jest gotowe; kolejny krok to plan i implementacja S-04                                         |
 
 ## Open Roadmap Questions
 

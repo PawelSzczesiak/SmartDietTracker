@@ -1,5 +1,5 @@
 ---
-import type { DailyCalorieWarning, EffectiveDailyCalorieLimit } from "@/lib/nutrition-goals";
+import type { DailyCalorieWarning, EffectiveDailyCalorieLimit, TargetCaloriePolicy } from "@/lib/nutrition-goals";
 import type { DailyMealSummary } from "@/lib/nutrition-records";
 
 interface Props {
@@ -7,9 +7,10 @@ interface Props {
   email?: string | null;
   effectiveLimit?: EffectiveDailyCalorieLimit;
   summary?: DailyMealSummary;
+  targetPolicy?: TargetCaloriePolicy;
 }
 
-const { email, effectiveLimit, summary, calorieWarning } = Astro.props;
+const { email, effectiveLimit, summary, calorieWarning, targetPolicy } = Astro.props;
 
 const statusTone =
   calorieWarning?.status === "over_limit"
@@ -33,6 +34,40 @@ const remainingLabel =
     : calorieWarning.remainingCalories >= 0
       ? `${calorieWarning.remainingCalories} kcal remaining`
       : `${Math.abs(calorieWarning.remainingCalories)} kcal over budget`;
+
+function getPaceLabel(pace: TargetCaloriePolicy["selectedPace"]) {
+  if (pace === "slow") {
+    return "Slow";
+  }
+
+  if (pace === "normal") {
+    return "Normal";
+  }
+
+  if (pace === "fast") {
+    return "Fast";
+  }
+
+  return null;
+}
+
+const targetPolicyTone =
+  targetPolicy?.kind === "guided"
+    ? targetPolicy.comparisonStatus === "outside_healthy_edge"
+      ? "border-amber-400/40 bg-amber-500/10 text-amber-100"
+      : "border-emerald-400/30 bg-emerald-500/10 text-emerald-100"
+    : "border-cyan-400/30 bg-cyan-500/10 text-cyan-100";
+
+const targetPolicyLabel =
+  targetPolicy?.kind === "guided"
+    ? `${getPaceLabel(targetPolicy.selectedPace)} pace · ${targetPolicy.direction}`
+    : targetPolicy?.kind === "maintain"
+      ? "Maintain mode"
+      : targetPolicy?.kind === "incomplete"
+        ? "Goal guidance unavailable"
+        : targetPolicy?.kind === "no_direction"
+          ? "Target weight missing"
+          : "Target pace missing";
 ---
 
 <div class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
@@ -78,6 +113,31 @@ const remainingLabel =
       <p class="mt-2 text-sm text-blue-100/70">{remainingLabel}</p>
     </div>
   </div>
+
+  {
+    targetPolicy && (
+      <div class:list={["mt-4 rounded-xl border p-4", targetPolicyTone]}>
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="text-xs font-semibold tracking-[0.2em] text-white/70 uppercase">Goal policy</p>
+            <p class="mt-2 text-lg font-semibold text-white">{targetPolicyLabel}</p>
+          </div>
+
+          {targetPolicy.kind === "guided" && (
+            <div class="text-sm text-white/85">
+              {targetPolicy.boundaryLabel}:{" "}
+              <span class="font-semibold text-white">{targetPolicy.healthyEdgeCalories}</span> kcal
+            </div>
+          )}
+        </div>
+
+        <p class="mt-2 text-sm text-white/85">{targetPolicy.advisoryLabel}</p>
+        <p class="mt-2 text-sm text-white/70">
+          Dashboard tracking still uses your active daily limit. The healthy edge is advisory only.
+        </p>
+      </div>
+    )
+  }
 
   {
     summary?.hasParsedMacros && (

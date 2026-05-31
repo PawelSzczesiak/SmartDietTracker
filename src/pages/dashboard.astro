@@ -6,7 +6,7 @@ import MealJournalSection from "@/components/meals/MealJournalSection.astro";
 import ProfileSection from "@/components/profile/ProfileSection.astro";
 import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
-import { getDailyCalorieWarning, getEffectiveDailyCalorieLimit } from "@/lib/nutrition-goals";
+import { getDailyCalorieWarning, getEffectiveDailyCalorieLimit, getTargetCaloriePolicy } from "@/lib/nutrition-goals";
 import { getNutritionDayWindow } from "@/lib/nutrition-day";
 import {
   getDailyMealSummary,
@@ -43,6 +43,7 @@ let successfulMeals: MealRecord[] = [];
 let dailySummary = getDailyMealSummary([]);
 let effectiveLimit = getEffectiveDailyCalorieLimit(null);
 let calorieWarning = getDailyCalorieWarning(dailySummary, effectiveLimit);
+let targetPolicy = getTargetCaloriePolicy(null, effectiveLimit);
 let foodSuggestions = getFoodSuggestionsForRemainingBudget({
   calorieWarning,
   meals: successfulMeals,
@@ -69,6 +70,7 @@ if (user && supabase) {
     dailySummary = getDailyMealSummary(todaysMeals);
     effectiveLimit = getEffectiveDailyCalorieLimit(profile);
     calorieWarning = getDailyCalorieWarning(dailySummary, effectiveLimit);
+    targetPolicy = getTargetCaloriePolicy(profile, effectiveLimit);
 
     const suggestionsSpan = startRequestSpan(requestContext, "suggestions_compute", {
       category: "performance",
@@ -123,6 +125,7 @@ if (user && supabase) {
         summary={dailySummary}
         effectiveLimit={effectiveLimit}
         calorieWarning={calorieWarning}
+        targetPolicy={targetPolicy}
       />
 
       <FoodSuggestions foodSuggestions={foodSuggestions} />
@@ -143,7 +146,7 @@ if (user && supabase) {
       }
 
       <div class="grid gap-6 lg:grid-cols-[1.1fr,0.9fr]">
-        <ProfileSection profile={profile} />
+        <ProfileSection profile={profile} targetPolicy={targetPolicy} />
         <MealJournalSection meals={meals} summary={dailySummary} calorieWarning={calorieWarning} />
       </div>
     </div>

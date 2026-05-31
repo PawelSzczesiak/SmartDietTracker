@@ -7,6 +7,22 @@ interface Props {
 
 const { profile } = Astro.props;
 
+function getTargetPaceLabel(targetPace: ProfileRecord["target_pace"]) {
+  if (targetPace === "slow") {
+    return "Slow";
+  }
+
+  if (targetPace === "normal") {
+    return "Normal";
+  }
+
+  if (targetPace === "fast") {
+    return "Fast";
+  }
+
+  return null;
+}
+
 const fields = [
   { label: "Age", value: profile?.age != null ? `${profile.age}` : null },
   {
@@ -21,6 +37,10 @@ const fields = [
   {
     label: "Target weight",
     value: profile?.target_weight != null ? `${profile.target_weight} kg` : null,
+  },
+  {
+    label: "Target pace",
+    value: getTargetPaceLabel(profile?.target_pace ?? null),
   },
   {
     label: "Manual calorie limit",
