@@ -1,12 +1,19 @@
 <form method="POST" action="/api/meals" class="space-y-4">
+  <div class="space-y-1">
+    <h3 class="text-sm font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Add meal</h3>
+    <p class="text-sm text-blue-100/70">
+      Describe what you ate in plain language. We will try to estimate calories and macros automatically, and you can
+      retry or edit the entry later if nutrition is unavailable.
+    </p>
+  </div>
+
   <label class="block text-sm text-blue-100/80">
     Meal description
     <textarea
       name="meal_text"
       rows="4"
       class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
-      placeholder="e.g. 2 eggs, rye bread, cottage cheese"
-    ></textarea>
+      placeholder="e.g. 2 eggs, 2 slices of rye bread, 100 g cottage cheese"></textarea>
   </label>
 
   <div class="flex justify-end">

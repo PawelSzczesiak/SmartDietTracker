@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { attachRequestId, createRequestContext, logRequestEvent } from "@/lib/request-context";
-import { createMealForUser } from "@/lib/nutrition-records";
+import { createMealForUser, getMealNutritionPersistence } from "@/lib/nutrition-records";
+import { parseMealNutrition } from "@/lib/services/meal-parser";
 import { getValidationMessage, parseMealFormData } from "@/lib/nutrition-validation";
 import { createClient } from "@/lib/supabase";
 
@@ -43,7 +44,26 @@ export const POST: APIRoute = async (context) => {
   }
 
   try {
-    await createMealForUser(supabase, user.id, parsed.data);
+    const parserResult = await parseMealNutrition(parsed.data.mealText);
+    const meal = await createMealForUser(supabase, user.id, parsed.data, getMealNutritionPersistence(parserResult));
+
+    if (parserResult.status === "unavailable") {
+      logRequestEvent("warn", "meals.create.saved_without_nutrition", requestContext, {
+        category: "parser",
+        detail: parserResult.detail,
+        mealId: meal.id,
+        message: parserResult.message,
+        providerStatus: parserResult.providerStatus,
+        reason: parserResult.reason,
+        userId: user.id,
+      });
+      return attachRequestId(
+        context.redirect(
+          `/dashboard?mealWarning=${encodeURIComponent("Meal saved, but nutrition data is unavailable right now")}`,
+        ),
+        requestContext.requestId,
+      );
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save meal";
     logRequestEvent("error", "meals.create.failed", requestContext, {
@@ -61,7 +81,7 @@ export const POST: APIRoute = async (context) => {
     userId: user.id,
   });
   return attachRequestId(
-    context.redirect(`/dashboard?mealSuccess=${encodeURIComponent("Meal saved")}`),
+    context.redirect(`/dashboard?mealSuccess=${encodeURIComponent("Meal saved with nutrition details")}`),
     requestContext.requestId,
   );
 };

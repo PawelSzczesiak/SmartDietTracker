@@ -1,5 +1,5 @@
 ---
-type Variant = "error" | "success";
+type Variant = "error" | "success" | "warning";
 
 interface Props {
   message: string;
@@ -15,7 +15,9 @@ const { message, prefix, variant = "error" } = Astro.props;
     "rounded-xl border px-4 py-3 text-sm",
     variant === "error"
       ? "border-red-400/40 bg-red-500/10 text-red-100"
-      : "border-emerald-400/40 bg-emerald-500/10 text-emerald-100",
+      : variant === "warning"
+        ? "border-amber-400/40 bg-amber-500/10 text-amber-100"
+        : "border-emerald-400/40 bg-emerald-500/10 text-emerald-100",
   ]}
 >
   {prefix ? <strong>{prefix}: </strong> : null}

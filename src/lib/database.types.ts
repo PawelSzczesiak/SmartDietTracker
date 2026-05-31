@@ -47,6 +47,9 @@ export interface Database {
           protein: number | null;
           carbs: number | null;
           fat: number | null;
+          parser_status: "failed" | "skipped" | "success";
+          parser_error: string | null;
+          parser_attempted_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -59,6 +62,9 @@ export interface Database {
           protein?: number | null;
           carbs?: number | null;
           fat?: number | null;
+          parser_status?: "failed" | "skipped" | "success";
+          parser_error?: string | null;
+          parser_attempted_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -71,6 +77,9 @@ export interface Database {
           protein?: number | null;
           carbs?: number | null;
           fat?: number | null;
+          parser_status?: "failed" | "skipped" | "success";
+          parser_error?: string | null;
+          parser_attempted_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };

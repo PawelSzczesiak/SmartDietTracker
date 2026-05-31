@@ -1,0 +1,6 @@
+# Copy to `.dev.vars` for local `npm run dev` on the Cloudflare runtime.
+# Keep production values in Cloudflare Worker secrets instead of tracked files.
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_KEY=your-supabase-anon-key
+OPENROUTER_API_KEY=your-openrouter-api-key
+OPENROUTER_MODEL=openai/gpt-4.1-mini

@@ -1,0 +1,373 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - link "Supabase" [ref=e9] [cursor=pointer]:
+            - /url: /project/default
+            - img "Supabase" [ref=e10]
+          - button "Default Project" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: Default Project
+          - button "Connect" [ref=e16] [cursor=pointer]:
+            - img [ref=e18]
+            - generic [ref=e20]: Connect
+        - generic [ref=e21]:
+          - button "Update available" [ref=e22] [cursor=pointer]:
+            - generic [ref=e23]: Update available
+          - generic [ref=e24]:
+            - button "Search..." [ref=e25] [cursor=pointer]:
+              - generic [ref=e26]:
+                - img [ref=e27]
+                - paragraph [ref=e30]: Search...
+              - generic [ref=e32]: Ctrl K
+            - button [ref=e33] [cursor=pointer]:
+              - img [ref=e35]
+            - button [ref=e39] [cursor=pointer]:
+              - img [ref=e41]
+            - button [ref=e43] [cursor=pointer]:
+              - img [ref=e45]
+            - button [ref=e47] [cursor=pointer]:
+              - img [ref=e51]
+          - button [ref=e54] [cursor=pointer]:
+            - figure [ref=e56]:
+              - img [ref=e57]
+    - generic [ref=e59]:
+      - generic [ref=e63]:
+        - list [ref=e66]:
+          - generic [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Project Overview" [ref=e69] [cursor=pointer]:
+                - /url: /project/default
+                - img [ref=e70]
+                - generic: Project Overview
+            - listitem [ref=e72]:
+              - link "Table Editor" [ref=e73] [cursor=pointer]:
+                - /url: /project/default/editor
+                - img [ref=e74]
+                - generic: Table Editor
+            - listitem [ref=e76]:
+              - link "SQL Editor" [ref=e77] [cursor=pointer]:
+                - /url: /project/default/sql
+                - img [ref=e78]
+                - generic: SQL Editor
+          - generic [ref=e80]:
+            - listitem [ref=e81]:
+              - link "Database" [ref=e82] [cursor=pointer]:
+                - /url: /project/default/database/schemas
+                - img [ref=e83]
+                - generic: Database
+            - listitem [ref=e87]:
+              - link "Authentication" [ref=e88] [cursor=pointer]:
+                - /url: /project/default/auth/users
+                - img [ref=e89]
+                - generic: Authentication
+            - listitem [ref=e91]:
+              - link "Storage" [ref=e92] [cursor=pointer]:
+                - /url: /project/default/storage/files
+                - img [ref=e93]
+                - generic: Storage
+            - listitem [ref=e95]:
+              - link "Edge Functions" [ref=e96] [cursor=pointer]:
+                - /url: /project/default/functions
+                - img [ref=e97]
+                - generic: Edge Functions
+            - listitem [ref=e102]:
+              - link "Realtime" [ref=e103] [cursor=pointer]:
+                - /url: /project/default/realtime/inspector
+                - img [ref=e104]
+                - generic: Realtime
+          - generic [ref=e106]:
+            - listitem [ref=e108]:
+              - link "Advisors" [ref=e109] [cursor=pointer]:
+                - /url: /project/default/advisors/security
+                - img [ref=e110]
+                - generic: Advisors
+            - listitem [ref=e112]:
+              - link "Logs" [ref=e113] [cursor=pointer]:
+                - /url: /project/default/logs/explorer
+                - img [ref=e114]
+                - generic: Logs
+            - listitem [ref=e115]:
+              - link "Integrations" [ref=e116] [cursor=pointer]:
+                - /url: /project/default/integrations
+                - img [ref=e117]
+                - generic: Integrations
+          - listitem [ref=e121]:
+            - link "Project Settings" [ref=e122] [cursor=pointer]:
+              - /url: /project/default/settings/log-drains
+              - img [ref=e123]
+              - generic: Project Settings
+        - button [ref=e128] [cursor=pointer]:
+          - img [ref=e130]
+      - main [ref=e140]:
+        - generic [ref=e141]:
+          - generic [ref=e144]:
+            - heading "Default Project" [level=1] [ref=e147]
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - link "Tables" [ref=e151] [cursor=pointer]:
+                  - /url: /project/default/editor
+                - paragraph [ref=e152]: "2"
+              - link "Functions" [ref=e154] [cursor=pointer]:
+                - /url: /project/default/functions
+          - generic [ref=e158]:
+            - heading "5 issues need attention" [level=2] [ref=e160]
+            - generic [ref=e161]:
+              - generic [ref=e163]:
+                - generic [ref=e164]:
+                  - tablist [ref=e165]:
+                    - tab "Security 5" [selected] [ref=e166] [cursor=pointer]:
+                      - text: Security
+                      - generic [ref=e167]: "5"
+                    - tab "Performance" [ref=e168] [cursor=pointer]
+                  - link [ref=e169] [cursor=pointer]:
+                    - /url: /project/default/advisors/security
+                    - img [ref=e171]
+                - tabpanel "Security 5" [ref=e176]:
+                  - list [ref=e178]:
+                    - listitem [ref=e179]:
+                      - generic [ref=e180]:
+                        - 'button "Function `public.set_updated_at` has a role mutable search_path" [ref=e181] [cursor=pointer]':
+                          - img [ref=e182]
+                          - paragraph [ref=e185]: "Function `public.set_updated_at` has a role mutable search_path"
+                        - generic [ref=e188]:
+                          - button [ref=e189] [cursor=pointer]:
+                            - img [ref=e193]
+                          - button [ref=e196] [cursor=pointer]:
+                            - img [ref=e198]
+                    - listitem [ref=e200]:
+                      - generic [ref=e201]:
+                        - 'button "table `public.meals` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in." [ref=e202] [cursor=pointer]':
+                          - img [ref=e203]
+                          - paragraph [ref=e205]: "table `public.meals` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in."
+                        - generic [ref=e208]:
+                          - button [ref=e209] [cursor=pointer]:
+                            - img [ref=e213]
+                          - button [ref=e216] [cursor=pointer]:
+                            - img [ref=e218]
+                    - listitem [ref=e220]:
+                      - generic [ref=e221]:
+                        - 'button "table `public.profiles` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in." [ref=e222] [cursor=pointer]':
+                          - img [ref=e223]
+                          - paragraph [ref=e225]: "table `public.profiles` is visible in the GraphQL schema because the `anon` role can `SELECT` it. Revoke `SELECT` from `anon` if it should not be discoverable without signing in."
+                        - generic [ref=e228]:
+                          - button [ref=e229] [cursor=pointer]:
+                            - img [ref=e233]
+                          - button [ref=e236] [cursor=pointer]:
+                            - img [ref=e238]
+                    - listitem [ref=e240]:
+                      - generic [ref=e241]:
+                        - 'button "table `public.meals` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account." [ref=e242] [cursor=pointer]':
+                          - img [ref=e243]
+                          - paragraph [ref=e245]: "table `public.meals` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account."
+                        - generic [ref=e248]:
+                          - button [ref=e249] [cursor=pointer]:
+                            - img [ref=e253]
+                          - button [ref=e256] [cursor=pointer]:
+                            - img [ref=e258]
+                    - listitem [ref=e260]:
+                      - generic [ref=e261]:
+                        - 'button "table `public.profiles` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account." [ref=e262] [cursor=pointer]':
+                          - img [ref=e263]
+                          - paragraph [ref=e265]: "table `public.profiles` is visible in the GraphQL schema to signed-in users because the `authenticated` role can `SELECT` it. Revoke `SELECT` from `authenticated` if it should not be discoverable to every account."
+                        - generic [ref=e268]:
+                          - button [ref=e269] [cursor=pointer]:
+                            - img [ref=e273]
+                          - button [ref=e276] [cursor=pointer]:
+                            - img [ref=e278]
+              - generic [ref=e280]:
+                - generic [ref=e281]:
+                  - heading "Slow Queries" [level=3] [ref=e282]
+                  - link [ref=e283] [cursor=pointer]:
+                    - /url: /project/default/reports/query-performance
+                    - img [ref=e285]
+                - table [ref=e292]:
+                  - rowgroup [ref=e293]:
+                    - row "Query Avg time Calls" [ref=e294]:
+                      - columnheader "Query" [ref=e295]
+                      - columnheader "Avg time" [ref=e296]
+                      - columnheader "Calls" [ref=e297]
+                  - rowgroup [ref=e298]:
+                    - row "SELECT name FROM pg_timezone_names 0.07s 15" [ref=e299]:
+                      - cell "SELECT name FROM pg_timezone_names" [ref=e300]
+                      - cell "0.07s" [ref=e301]
+                      - cell "15" [ref=e302]
+                    - row [ref=e303]:
+                      - cell [ref=e304]
+                      - cell "0.01s" [ref=e305]
+                      - cell "15" [ref=e306]
+                    - row [ref=e307]:
+                      - cell [ref=e308]
+                      - cell "0.02s" [ref=e309]
+                      - cell "15" [ref=e310]
+                    - row [ref=e311]:
+                      - cell [ref=e312]
+                      - cell "0.02s" [ref=e313]
+                      - cell "1" [ref=e314]
+                    - row [ref=e315]:
+                      - cell [ref=e316]
+                      - cell "0.02s" [ref=e317]
+                      - cell "1" [ref=e318]
+          - generic [ref=e320]:
+            - generic [ref=e321]:
+              - heading "Client libraries" [level=2] [ref=e322]
+              - generic [ref=e323]:
+                - generic [ref=e324]:
+                  - img "JavaScript logo" [ref=e325]
+                  - generic [ref=e326]:
+                    - heading "JavaScript" [level=5] [ref=e328]
+                    - generic [ref=e329]:
+                      - link "Docs" [ref=e330] [cursor=pointer]:
+                        - /url: https://supabase.com/docs/reference/javascript/installing
+                        - button "Docs" [ref=e331]:
+                          - img [ref=e333]
+                          - generic [ref=e336]: Docs
+                      - link "See GitHub" [ref=e337] [cursor=pointer]:
+                        - /url: https://github.com/supabase/supabase-js
+                        - button "See GitHub" [ref=e338]:
+                          - img [ref=e340]
+                          - generic [ref=e343]: See GitHub
+                - generic [ref=e344]:
+                  - img "Flutter logo" [ref=e345]
+                  - generic [ref=e346]:
+                    - heading "Flutter" [level=5] [ref=e348]
+                    - generic [ref=e349]:
+                      - link "Docs" [ref=e350] [cursor=pointer]:
+                        - /url: https://supabase.com/docs/reference/dart/installing
+                        - button "Docs" [ref=e351]:
+                          - img [ref=e353]
+                          - generic [ref=e356]: Docs
+                      - link "See GitHub" [ref=e357] [cursor=pointer]:
+                        - /url: https://github.com/supabase/supabase-flutter
+                        - button "See GitHub" [ref=e358]:
+                          - img [ref=e360]
+                          - generic [ref=e363]: See GitHub
+                - generic [ref=e364]:
+                  - img "Python logo" [ref=e365]
+                  - generic [ref=e366]:
+                    - heading "Python" [level=5] [ref=e368]
+                    - generic [ref=e369]:
+                      - link "Docs" [ref=e370] [cursor=pointer]:
+                        - /url: https://supabase.com/docs/reference/python/initializing
+                        - button "Docs" [ref=e371]:
+                          - img [ref=e373]
+                          - generic [ref=e376]: Docs
+                      - link "See GitHub" [ref=e377] [cursor=pointer]:
+                        - /url: https://github.com/supabase/supabase-py
+                        - button "See GitHub" [ref=e378]:
+                          - img [ref=e380]
+                          - generic [ref=e383]: See GitHub
+                - generic [ref=e384]:
+                  - img "C# logo" [ref=e385]
+                  - generic [ref=e386]:
+                    - heading "C# Community" [level=5] [ref=e388]:
+                      - text: C#
+                      - generic [ref=e389]: Community
+                    - generic [ref=e390]:
+                      - link "Docs" [ref=e391] [cursor=pointer]:
+                        - /url: https://supabase.com/docs/reference/csharp/installing
+                        - button "Docs" [ref=e392]:
+                          - img [ref=e394]
+                          - generic [ref=e397]: Docs
+                      - link "See GitHub" [ref=e398] [cursor=pointer]:
+                        - /url: https://github.com/supabase-community/supabase-csharp
+                        - button "See GitHub" [ref=e399]:
+                          - img [ref=e401]
+                          - generic [ref=e404]: See GitHub
+                - generic [ref=e405]:
+                  - img "Swift logo" [ref=e406]
+                  - generic [ref=e407]:
+                    - heading "Swift" [level=5] [ref=e409]
+                    - generic [ref=e410]:
+                      - link "Docs" [ref=e411] [cursor=pointer]:
+                        - /url: https://supabase.com/docs/reference/swift/initializing
+                        - button "Docs" [ref=e412]:
+                          - img [ref=e414]
+                          - generic [ref=e417]: Docs
+                      - link "See GitHub" [ref=e418] [cursor=pointer]:
+                        - /url: https://github.com/supabase/supabase-swift
+                        - button "See GitHub" [ref=e419]:
+                          - img [ref=e421]
+                          - generic [ref=e424]: See GitHub
+                - generic [ref=e425]:
+                  - img "Kotlin logo" [ref=e426]
+                  - generic [ref=e427]:
+                    - heading "Kotlin Community" [level=5] [ref=e429]:
+                      - text: Kotlin
+                      - generic [ref=e430]: Community
+                    - generic [ref=e431]:
+                      - link "Docs" [ref=e432] [cursor=pointer]:
+                        - /url: https://supabase.com/docs/reference/kotlin/installing
+                        - button "Docs" [ref=e433]:
+                          - img [ref=e435]
+                          - generic [ref=e438]: Docs
+                      - link "See GitHub" [ref=e439] [cursor=pointer]:
+                        - /url: https://github.com/supabase-community/supabase-kt
+                        - button "See GitHub" [ref=e440]:
+                          - img [ref=e442]
+                          - generic [ref=e445]: See GitHub
+            - generic [ref=e446]:
+              - heading "Example projects" [level=4] [ref=e447]
+              - generic [ref=e449]:
+                - tablist [ref=e450]:
+                  - tab "App Frameworks" [selected] [ref=e451] [cursor=pointer]
+                  - tab "Mobile Frameworks" [ref=e452] [cursor=pointer]
+                - tabpanel "App Frameworks" [ref=e453]:
+                  - generic [ref=e454]:
+                    - link "NestJS logo NestJS example NestJS example using Supabase Auth" [ref=e455] [cursor=pointer]:
+                      - /url: https://github.com/hiro1107/nestjs-supabase-auth
+                      - generic [ref=e456]:
+                        - img "NestJS logo" [ref=e458]
+                        - generic [ref=e459]:
+                          - heading "NestJS example" [level=5] [ref=e460]
+                          - paragraph [ref=e461]: NestJS example using Supabase Auth
+                        - img [ref=e463]
+                    - link "nextjs logo Next.js Realtime chat app Next.js Slack clone app using Supabase realtime subscriptions" [ref=e465] [cursor=pointer]:
+                      - /url: https://github.com/supabase/supabase/tree/master/examples/slack-clone/nextjs-slack-clone
+                      - generic [ref=e466]:
+                        - img "nextjs logo" [ref=e468]
+                        - generic [ref=e469]:
+                          - heading "Next.js Realtime chat app" [level=5] [ref=e470]
+                          - paragraph [ref=e471]: Next.js Slack clone app using Supabase realtime subscriptions
+                        - img [ref=e473]
+                    - link "nextjs logo Next.js Subscription and Auth The all-in-one starter kit for high-performance SaaS applications." [ref=e475] [cursor=pointer]:
+                      - /url: https://github.com/nextjs/saas-starter
+                      - generic [ref=e476]:
+                        - img "nextjs logo" [ref=e478]
+                        - generic [ref=e479]:
+                          - heading "Next.js Subscription and Auth" [level=5] [ref=e480]
+                          - paragraph [ref=e481]: The all-in-one starter kit for high-performance SaaS applications.
+                        - img [ref=e483]
+                    - link "nextjs logo Next.js todo list app Next.js todo list example" [ref=e485] [cursor=pointer]:
+                      - /url: https://github.com/supabase/supabase/tree/master/examples/todo-list/nextjs-todo-list
+                      - generic [ref=e486]:
+                        - img "nextjs logo" [ref=e488]
+                        - generic [ref=e489]:
+                          - heading "Next.js todo list app" [level=5] [ref=e490]
+                          - paragraph [ref=e491]: Next.js todo list example
+                        - img [ref=e493]
+                    - link "React logo React realtime chat app Example app of real-time chat using supabase realtime api" [ref=e495] [cursor=pointer]:
+                      - /url: https://github.com/shwosner/realtime-chat-supabase-react
+                      - generic [ref=e496]:
+                        - img "React logo" [ref=e498]
+                        - generic [ref=e499]:
+                          - heading "React realtime chat app" [level=5] [ref=e500]
+                          - paragraph [ref=e501]: Example app of real-time chat using supabase realtime api
+                        - img [ref=e503]
+                    - link "Svelte logo Svelte kanban board A Trello clone using Supabase as the storage system." [ref=e505] [cursor=pointer]:
+                      - /url: https://github.com/joshnuss/supabase-kanban
+                      - generic [ref=e506]:
+                        - img "Svelte logo" [ref=e508]
+                        - generic [ref=e509]:
+                          - heading "Svelte kanban board" [level=5] [ref=e510]
+                          - paragraph [ref=e511]: A Trello clone using Supabase as the storage system.
+                        - img [ref=e513]
+                    - link "Svelte logo Svelte todo list app Sveltejs todo with TailwindCSS and Snowpack" [ref=e515] [cursor=pointer]:
+                      - /url: https://github.com/supabase/supabase/tree/master/examples/todo-list/sveltejs-todo-list
+                      - generic [ref=e516]:
+                        - img "Svelte logo" [ref=e518]
+                        - generic [ref=e519]:
+                          - heading "Svelte todo list app" [level=5] [ref=e520]
+                          - paragraph [ref=e521]: Sveltejs todo with TailwindCSS and Snowpack
+                        - img [ref=e523]
+  - alert [ref=e525]: Supabase

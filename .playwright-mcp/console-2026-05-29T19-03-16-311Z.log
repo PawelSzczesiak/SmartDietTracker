@@ -1,0 +1,11 @@
+[     763ms] [LOG] Supabase Studio is running commit development deployed at unknown time. @ http://127.0.0.1:54323/_next/static/chunks/0_dci76zgv~y-.js:32
+[     816ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:54323/api/platform/notifications?offset=0&limit=20&status=new%2Cseen:0
+[    1018ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:54323/api/platform/notifications?offset=0&limit=20&status=new%2Cseen:0
+[    1290ms] [WARNING] You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS. @ https://js.stripe.com/basil/stripe.js:0
+[    1295ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:54323/api/v1/projects/default/functions:0
+[    2175ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:54323/api/platform/notifications?offset=0&limit=20&status=new%2Cseen:0
+[    2306ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:54323/api/v1/projects/default/functions:0
+[    4184ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:54323/api/platform/notifications?offset=0&limit=20&status=new%2Cseen:0
+[    4316ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:54323/api/v1/projects/default/functions:0
+[    8197ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:54323/api/platform/notifications?offset=0&limit=20&status=new%2Cseen:0
+[    8331ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:54323/api/v1/projects/default/functions:0

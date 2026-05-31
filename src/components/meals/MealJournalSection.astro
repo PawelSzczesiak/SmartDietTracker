@@ -1,24 +1,66 @@
 ---
-import type { MealRecord } from "@/lib/nutrition-records";
+import type { DailyCalorieWarning } from "@/lib/nutrition-goals";
+import type { DailyMealSummary, MealRecord } from "@/lib/nutrition-records";
 import MealEntryForm from "@/components/meals/MealEntryForm.astro";
 import MealHistory from "@/components/meals/MealHistory.astro";
 
 interface Props {
   meals: MealRecord[];
+  summary: DailyMealSummary;
+  calorieWarning: DailyCalorieWarning;
 }
 
-const { meals } = Astro.props;
+const { meals, summary, calorieWarning } = Astro.props;
+
+const parserPendingCount = meals.filter((meal) => meal.parser_status !== "success").length;
+const summaryTone =
+  calorieWarning.status === "over_limit"
+    ? "border-rose-400/30 bg-rose-500/10"
+    : calorieWarning.status === "near_limit"
+      ? "border-amber-400/30 bg-amber-500/10"
+      : "border-white/10 bg-slate-950/30";
 ---
 
 <section class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
   <div class="mb-6">
     <h2 class="text-xl font-semibold text-white">Meal journal</h2>
     <p class="mt-1 text-sm text-blue-100/60">
-      Add free-form meal entries now; calorie and macro enrichment will come in later slices.
+      Track today's meals, calories, and macros in one place. Failed nutrition estimates stay visible and can be
+      retried.
     </p>
   </div>
 
   <div class="space-y-6">
+    <div class:list={["rounded-xl border p-4", summaryTone]}>
+      <div class="grid gap-3 md:grid-cols-4">
+        <div>
+          <p class="text-xs font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Calories</p>
+          <p class="mt-2 text-2xl font-semibold text-white">{summary.totalCalories}</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Protein</p>
+          <p class="mt-2 text-2xl font-semibold text-white">{summary.totalProtein.toFixed(1)} g</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Carbs</p>
+          <p class="mt-2 text-2xl font-semibold text-white">{summary.totalCarbs.toFixed(1)} g</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Fat</p>
+          <p class="mt-2 text-2xl font-semibold text-white">{summary.totalFat.toFixed(1)} g</p>
+        </div>
+      </div>
+
+      {
+        parserPendingCount > 0 && (
+          <p class="mt-4 text-sm text-blue-100/75">
+            {parserPendingCount} {parserPendingCount === 1 ? "meal still needs" : "meals still need"} nutrition parsing
+            attention.
+          </p>
+        )
+      }
+    </div>
+
     <MealEntryForm />
     <MealHistory meals={meals} />
   </div>

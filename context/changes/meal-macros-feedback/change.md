@@ -1,7 +1,7 @@
 ﻿---
 id: meal-macros-feedback
 title: Macro feedback in DashboardHero
-status: implemented
+status: impl_reviewed
 created: 2026-05-30
 updated: 2026-05-30
 roadmap_id: S-02
@@ -18,5 +18,4 @@ Show protein, carbs, and fat totals as compact chips in DashboardHero when at le
 ## Outcome
 
 User can see daily macro totals (protein / carbs / fat) at a glance in the hero section, not just calories, after logging at least one meal.
-
 

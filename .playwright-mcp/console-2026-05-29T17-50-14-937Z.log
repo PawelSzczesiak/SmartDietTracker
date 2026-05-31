@@ -1,0 +1,2 @@
+[     882ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://127.0.0.1:4322/auth/signin:0
+[    1239ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:4322/node_modules/.vite/deps/chunk-XFEUJNJL.js?v=67fb6f3e:20102

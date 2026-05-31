@@ -6,10 +6,54 @@ interface Props {
 }
 
 const { meals } = Astro.props;
+
+function formatMacro(value: number | null) {
+  if (value == null) {
+    return "—";
+  }
+
+  return Number.isInteger(value) ? `${value.toFixed(0)} g` : `${value.toFixed(1)} g`;
+}
+
+function formatCalories(value: number | null) {
+  return value == null ? "—" : `${value} kcal`;
+}
+
+function getMealStatus(meal: MealRecord) {
+  return meal.parser_status;
+}
+
+function getStatusLabel(meal: MealRecord) {
+  const status = getMealStatus(meal);
+
+  if (status === "success") {
+    return "Nutrition ready";
+  }
+
+  if (status === "failed") {
+    return "Retry available";
+  }
+
+  return "Parser unavailable";
+}
+
+function getStatusTone(meal: MealRecord) {
+  const status = getMealStatus(meal);
+
+  if (status === "success") {
+    return "border-emerald-400/30 bg-emerald-500/10 text-emerald-100";
+  }
+
+  if (status === "failed") {
+    return "border-amber-400/30 bg-amber-500/10 text-amber-100";
+  }
+
+  return "border-blue-300/20 bg-blue-500/10 text-blue-100";
+}
 ---
 
 <div class="space-y-3">
-  <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-blue-100/60">Recent entries</h3>
+  <h3 class="text-sm font-semibold tracking-[0.2em] text-blue-100/60 uppercase">Today's entries</h3>
 
   {
     meals.length > 0 ? (
@@ -21,16 +65,99 @@ const { meals } = Astro.props;
                 <p class="text-sm font-medium text-white">{meal.meal_text}</p>
                 <p class="mt-1 text-xs text-blue-100/60">Saved {new Date(meal.consumed_at).toLocaleString("en-GB")}</p>
               </div>
-              <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-blue-100/50">
-                Foundation
+              <span
+                class:list={[
+                  "rounded-full border px-2.5 py-1 text-[11px] tracking-[0.16em] uppercase",
+                  getStatusTone(meal),
+                ]}
+              >
+                {getStatusLabel(meal)}
               </span>
+            </div>
+
+            {getMealStatus(meal) === "success" ? (
+              <div class="mt-4 grid gap-3 sm:grid-cols-4">
+                <div class="rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  <p class="text-[11px] tracking-[0.16em] text-blue-100/50 uppercase">Calories</p>
+                  <p class="mt-1 text-sm font-semibold text-white">{formatCalories(meal.calories)}</p>
+                </div>
+                <div class="rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  <p class="text-[11px] tracking-[0.16em] text-blue-100/50 uppercase">Protein</p>
+                  <p class="mt-1 text-sm font-semibold text-white">{formatMacro(meal.protein)}</p>
+                </div>
+                <div class="rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  <p class="text-[11px] tracking-[0.16em] text-blue-100/50 uppercase">Carbs</p>
+                  <p class="mt-1 text-sm font-semibold text-white">{formatMacro(meal.carbs)}</p>
+                </div>
+                <div class="rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  <p class="text-[11px] tracking-[0.16em] text-blue-100/50 uppercase">Fat</p>
+                  <p class="mt-1 text-sm font-semibold text-white">{formatMacro(meal.fat)}</p>
+                </div>
+              </div>
+            ) : (
+              <div class="mt-4 rounded-lg border border-amber-400/20 bg-amber-500/10 px-3 py-3 text-sm text-amber-100">
+                <p class="font-medium">Nutrition unavailable</p>
+                <p class="mt-1 text-amber-100/80">
+                  {meal.parser_error ?? "We saved the meal, but nutrition details are not available yet."}
+                </p>
+              </div>
+            )}
+
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+              {getMealStatus(meal) !== "success" && (
+                <form method="POST" action="/api/meals/retry">
+                  <input type="hidden" name="meal_id" value={meal.id} />
+                  <button
+                    type="submit"
+                    class="rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-2 text-xs font-semibold tracking-[0.12em] text-amber-100 uppercase transition-colors hover:bg-amber-500/20"
+                  >
+                    Retry nutrition
+                  </button>
+                </form>
+              )}
+
+              <details class="min-w-[16rem] flex-1">
+                <summary class="cursor-pointer list-none text-xs font-semibold tracking-[0.12em] text-blue-100/70 uppercase">
+                  Edit meal
+                </summary>
+
+                <form method="POST" action="/api/meals/update" class="mt-3 space-y-3">
+                  <input type="hidden" name="meal_id" value={meal.id} />
+                  <label class="block text-sm text-blue-100/80">
+                    Meal description
+                    <textarea
+                      name="meal_text"
+                      rows="3"
+                      class="mt-1 w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white placeholder-white/40 focus:border-purple-400 focus:outline-none"
+                    >
+                      {meal.meal_text}
+                    </textarea>
+                  </label>
+                  <button
+                    type="submit"
+                    class="rounded-lg border border-white/20 bg-purple-500/80 px-3 py-2 text-xs font-semibold tracking-[0.12em] text-white uppercase transition-colors hover:bg-purple-500"
+                  >
+                    Save changes
+                  </button>
+                </form>
+              </details>
+
+              <form method="POST" action="/api/meals/delete">
+                <input type="hidden" name="meal_id" value={meal.id} />
+                <button
+                  type="submit"
+                  class="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-xs font-semibold tracking-[0.12em] text-rose-100 uppercase transition-colors hover:bg-rose-500/20"
+                >
+                  Delete meal
+                </button>
+              </form>
             </div>
           </li>
         ))}
       </ul>
     ) : (
       <div class="rounded-xl border border-dashed border-white/15 bg-slate-950/20 px-4 py-6 text-sm text-blue-100/60">
-        No meals saved yet. Your first entry will appear here after it is persisted.
+        No meals saved for today yet. Your first entry will appear here after it is persisted.
       </div>
     )
   }
