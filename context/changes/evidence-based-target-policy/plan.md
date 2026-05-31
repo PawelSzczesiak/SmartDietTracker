@@ -329,11 +329,11 @@ F-03 adds one nullable profile field and no backfill. Existing profiles should r
 
 #### Automated
 
-- [x] 4.1 Lint passes after the dashboard messaging updates
-- [x] 4.2 Build passes with the dashboard policy summary in place
+- [x] 4.1 Lint passes after the dashboard messaging updates — cc6e317
+- [x] 4.2 Build passes with the dashboard policy summary in place — cc6e317
 
 #### Manual
 
-- [x] 4.3 Dashboard hero shows the current advisory state after profile save without requiring the user to reopen the profile section
-- [x] 4.4 Food suggestions and meal tracking still behave against the active requested limit, not the advisory healthy edge
-- [x] 4.5 No dashboard copy suggests that the app silently capped the user's chosen calorie limit
+- [x] 4.3 Dashboard hero shows the current advisory state after profile save without requiring the user to reopen the profile section — cc6e317
+- [x] 4.4 Food suggestions and meal tracking still behave against the active requested limit, not the advisory healthy edge — cc6e317
+- [x] 4.5 No dashboard copy suggests that the app silently capped the user's chosen calorie limit — cc6e317
