@@ -298,12 +298,12 @@ Document and operationalize how to run, read, and act on performance verificatio
 
 #### Automated
 
-- [x] 3.1 Non-blocking perf workflow is valid and runnable on dispatch
-- [x] 3.2 Existing CI path still passes unchanged (`npm run lint`, `npm run build`)
-- [x] 3.3 Perf command remains executable in CI context with documented inputs
+- [x] 3.1 Non-blocking perf workflow is valid and runnable on dispatch — 06147a6
+- [x] 3.2 Existing CI path still passes unchanged (`npm run lint`, `npm run build`) — 06147a6
+- [x] 3.3 Perf command remains executable in CI context with documented inputs — 06147a6
 
 #### Manual
 
-- [x] 3.4 Runbook can be followed end-to-end by another developer
-- [x] 3.5 Manual smoke checklist is executed and captured with baseline artifacts
-- [x] 3.6 Issue/update workflow includes perf summary and manual verification checklist for close-out
+- [x] 3.4 Runbook can be followed end-to-end by another developer — 06147a6
+- [x] 3.5 Manual smoke checklist is executed and captured with baseline artifacts — 06147a6
+- [x] 3.6 Issue/update workflow includes perf summary and manual verification checklist for close-out — 06147a6
