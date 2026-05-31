@@ -284,26 +284,26 @@ Document and operationalize how to run, read, and act on performance verificatio
 
 #### Automated
 
-- [x] 2.1 Baseline script executes and produces JSON + Markdown artifacts via `npm run perf:baseline`
-- [x] 2.2 Lint passes after script and package updates
-- [x] 2.3 Build remains green after perf tooling additions
+- [x] 2.1 Baseline script executes and produces JSON + Markdown artifacts via `npm run perf:baseline` — a91d9e4
+- [x] 2.2 Lint passes after script and package updates — a91d9e4
+- [x] 2.3 Build remains green after perf tooling additions — a91d9e4
 
 #### Manual
 
-- [x] 2.4 Baseline run report shows meal submit and dashboard refresh percentiles
-- [x] 2.5 Report includes explicit pass/warn evaluation against NFR-01 and NFR-02
-- [x] 2.6 NFR breach is recorded as non-blocking warning with breakdown and recommendation
+- [x] 2.4 Baseline run report shows meal submit and dashboard refresh percentiles — a91d9e4
+- [x] 2.5 Report includes explicit pass/warn evaluation against NFR-01 and NFR-02 — a91d9e4
+- [x] 2.6 NFR breach is recorded as non-blocking warning with breakdown and recommendation — a91d9e4
 
 ### Phase 3: Operationalize verification path (runbook + non-blocking CI)
 
 #### Automated
 
-- [ ] 3.1 Non-blocking perf workflow is valid and runnable on dispatch
-- [ ] 3.2 Existing CI path still passes unchanged (`npm run lint`, `npm run build`)
-- [ ] 3.3 Perf command remains executable in CI context with documented inputs
+- [x] 3.1 Non-blocking perf workflow is valid and runnable on dispatch
+- [x] 3.2 Existing CI path still passes unchanged (`npm run lint`, `npm run build`)
+- [x] 3.3 Perf command remains executable in CI context with documented inputs
 
 #### Manual
 
-- [ ] 3.4 Runbook can be followed end-to-end by another developer
-- [ ] 3.5 Manual smoke checklist is executed and captured with baseline artifacts
-- [ ] 3.6 Issue/update workflow includes perf summary and manual verification checklist for close-out
+- [x] 3.4 Runbook can be followed end-to-end by another developer
+- [x] 3.5 Manual smoke checklist is executed and captured with baseline artifacts
+- [x] 3.6 Issue/update workflow includes perf summary and manual verification checklist for close-out

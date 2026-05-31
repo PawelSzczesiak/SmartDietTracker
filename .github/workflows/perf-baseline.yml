@@ -1,0 +1,37 @@
+name: Perf baseline
+
+on:
+  workflow_dispatch:
+    inputs:
+      perf_base_url:
+        description: Target app URL to baseline
+        required: true
+        default: http://127.0.0.1:4321
+      perf_samples:
+        description: Sample count
+        required: false
+        default: "10"
+
+jobs:
+  perf-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx astro sync
+      - name: Run perf baseline
+        env:
+          PERF_BASE_URL: ${{ inputs.perf_base_url }}
+          PERF_SAMPLES: ${{ inputs.perf_samples }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm run perf:baseline
+      - name: Upload baseline artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-baseline
+          path: context/changes/performance-verification-path/verification/runs/*
