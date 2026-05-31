@@ -1,13 +1,63 @@
 ---
+import type { TargetCaloriePolicy } from "@/lib/nutrition-goals";
 import type { ProfileRecord } from "@/lib/nutrition-records";
 import ProfileForm from "@/components/profile/ProfileForm.astro";
 import ProfileSummary from "@/components/profile/ProfileSummary.astro";
 
 interface Props {
   profile: ProfileRecord | null;
+  targetPolicy?: TargetCaloriePolicy;
 }
 
-const { profile } = Astro.props;
+const { profile, targetPolicy } = Astro.props;
+
+function getDirectionLabel(direction: TargetCaloriePolicy["direction"]) {
+  if (direction === "loss") {
+    return "Weight loss";
+  }
+
+  if (direction === "gain") {
+    return "Weight gain";
+  }
+
+  if (direction === "maintain") {
+    return "Maintain weight";
+  }
+
+  return "Goal guidance";
+}
+
+function getPaceLabel(pace: TargetCaloriePolicy["selectedPace"]) {
+  if (pace === "slow") {
+    return "Slow";
+  }
+
+  if (pace === "normal") {
+    return "Normal";
+  }
+
+  if (pace === "fast") {
+    return "Fast";
+  }
+
+  return null;
+}
+
+const policyTone =
+  targetPolicy?.kind === "guided"
+    ? targetPolicy.comparisonStatus === "outside_healthy_edge"
+      ? "border-amber-400/40 bg-amber-500/10"
+      : "border-emerald-400/40 bg-emerald-500/10"
+    : "border-cyan-400/30 bg-cyan-500/10";
+
+const policyTitle =
+  targetPolicy?.kind === "guided"
+    ? targetPolicy.comparisonStatus === "outside_healthy_edge"
+      ? "Current limit is outside the healthy edge"
+      : "Current limit is within the healthy edge"
+    : getDirectionLabel(targetPolicy?.direction ?? "unknown");
+
+const paceLabel = getPaceLabel(targetPolicy?.selectedPace ?? null);
 ---
 
 <section class="rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl">
@@ -20,6 +70,67 @@ const { profile } = Astro.props;
 
   <div class="space-y-5">
     <ProfileSummary profile={profile} />
+
+    {
+      targetPolicy && (
+        <div class:list={["rounded-xl border p-4", policyTone]}>
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 class="text-sm font-semibold tracking-[0.2em] text-white/70 uppercase">Goal guidance</h3>
+              <p class="mt-2 text-lg font-semibold text-white">{policyTitle}</p>
+            </div>
+
+            {targetPolicy.kind === "guided" && paceLabel && (
+              <span class="inline-flex w-fit rounded-full border border-white/15 bg-slate-950/40 px-3 py-1 text-xs font-medium text-blue-100/80">
+                {paceLabel} pace · {targetPolicy.weeklyRateKg} kg/week
+              </span>
+            )}
+          </div>
+
+          <p class="mt-3 text-sm text-blue-50/85">{targetPolicy.advisoryLabel}</p>
+
+          {targetPolicy.kind === "guided" ? (
+            <div class="mt-4 grid gap-3 md:grid-cols-2">
+              <div class="rounded-lg border border-white/10 bg-slate-950/30 px-4 py-3">
+                <p class="text-xs tracking-[0.16em] text-blue-100/50 uppercase">Active daily limit</p>
+                <p class="mt-2 text-2xl font-semibold text-white">{targetPolicy.activeLimitCalories} kcal</p>
+                <p class="mt-2 text-sm text-blue-100/70">
+                  {targetPolicy.activeLimitSourceLabel} stays active for tracking, meals, and suggestions.
+                </p>
+              </div>
+
+              <div class="rounded-lg border border-white/10 bg-slate-950/30 px-4 py-3">
+                <p class="text-xs tracking-[0.16em] text-blue-100/50 uppercase">{targetPolicy.boundaryLabel}</p>
+                <p class="mt-2 text-2xl font-semibold text-white">{targetPolicy.healthyEdgeCalories} kcal</p>
+                <p class="mt-2 text-sm text-blue-100/70">{targetPolicy.healthyEdgeLabel}</p>
+              </div>
+            </div>
+          ) : (
+            <div class="mt-4 rounded-lg border border-white/10 bg-slate-950/30 px-4 py-3 text-sm text-blue-100/75">
+              {targetPolicy.kind === "incomplete"
+                ? `You can save the profile now. Add ${targetPolicy.missingFields.join(", ")} to compute a healthy edge.`
+                : targetPolicy.kind === "pace_missing"
+                  ? "You can save the profile now. Choose slow, normal, or fast to compute a healthy edge."
+                  : targetPolicy.kind === "no_direction"
+                    ? "You can save the profile now. Set a target weight to compute goal-specific guidance."
+                    : "Target pace is stored, but no pace-based warning applies while your current and target weight are the same."}
+            </div>
+          )}
+
+          {targetPolicy.kind === "guided" && targetPolicy.healthyEdgeClamped && (
+            <p class="mt-3 text-sm text-blue-100/70">
+              The minimum healthy limit was clamped to a conservative safety floor for this profile.
+            </p>
+          )}
+
+          <p class="mt-3 text-sm text-blue-100/70">
+            Changing target pace does not auto-change today's tracked budget. It only updates the recommended healthy
+            edge for your goal.
+          </p>
+        </div>
+      )
+    }
+
     <ProfileForm profile={profile} />
   </div>
 </section>

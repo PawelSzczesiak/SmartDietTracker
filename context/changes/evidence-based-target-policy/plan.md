@@ -288,42 +288,42 @@ F-03 adds one nullable profile field and no backfill. Existing profiles should r
 
 #### Automated
 
-- [x] 1.1 Local Supabase applies the new profile schema cleanly
-- [x] 1.2 Astro types regenerate successfully after the schema change
-- [x] 1.3 Lint passes with the new profile contract in place
-- [x] 1.4 Build passes with the extended profile pipeline wired through
+- [x] 1.1 Local Supabase applies the new profile schema cleanly — de8ad11
+- [x] 1.2 Astro types regenerate successfully after the schema change — de8ad11
+- [x] 1.3 Lint passes with the new profile contract in place — de8ad11
+- [x] 1.4 Build passes with the extended profile pipeline wired through — de8ad11
 
 #### Manual
 
-- [x] 1.5 A signed-in user can save `slow`, `normal`, or `fast` target pace and see it persist after a full page refresh
-- [x] 1.6 A profile can still be saved when `target_pace` is empty
+- [x] 1.5 A signed-in user can save `slow`, `normal`, or `fast` target pace and see it persist after a full page refresh — de8ad11
+- [x] 1.6 A profile can still be saved when `target_pace` is empty — de8ad11
 
 ### Phase 2: Build the evidence-based policy engine
 
 #### Automated
 
-- [ ] 2.1 Astro sync, lint, and build all pass after the policy types and helpers are added
+- [x] 2.1 Astro sync, lint, and build all pass after the policy types and helpers are added
 
 #### Manual
 
-- [ ] 2.2 Loss and gain goals each resolve to the agreed pace-band mapping for `slow`, `normal`, and `fast`
-- [ ] 2.3 Equal current and target weight resolves to maintain/no pace applied with no misleading loss/gain warning
-- [ ] 2.4 A manual calorie limit outside the healthy edge shows a warning and recommended healthy edge without being auto-clipped
-- [ ] 2.5 Existing near-limit / over-limit daily tracking behavior remains based on the active requested limit
+- [x] 2.2 Loss and gain goals each resolve to the agreed pace-band mapping for `slow`, `normal`, and `fast`
+- [x] 2.3 Equal current and target weight resolves to maintain/no pace applied with no misleading loss/gain warning
+- [x] 2.4 A manual calorie limit outside the healthy edge shows a warning and recommended healthy edge without being auto-clipped
+- [x] 2.5 Existing near-limit / over-limit daily tracking behavior remains based on the active requested limit
 
 ### Phase 3: Wire policy into the profile experience
 
 #### Automated
 
-- [ ] 3.1 Lint passes with the new profile UI and route integration
-- [ ] 3.2 Build passes with the policy data flowing into the profile section
+- [x] 3.1 Lint passes with the new profile UI and route integration
+- [x] 3.2 Build passes with the policy data flowing into the profile section
 
 #### Manual
 
-- [ ] 3.3 A signed-in user can choose a pace in the profile form and see it reflected in the saved profile view
-- [ ] 3.4 The profile area shows warning-only guidance for an unsafe manual limit without blocking save
-- [ ] 3.5 The profile area shows neutral directional healthy-edge copy for both loss and gain goals
-- [ ] 3.6 A maintain/equal-weight profile does not show misleading pace-enforcement copy
+- [x] 3.3 A signed-in user can choose a pace in the profile form and see it reflected in the saved profile view
+- [x] 3.4 The profile area shows warning-only guidance for an unsafe manual limit without blocking save
+- [x] 3.5 The profile area shows neutral directional healthy-edge copy for both loss and gain goals
+- [x] 3.6 A maintain/equal-weight profile does not show misleading pace-enforcement copy
 
 ### Phase 4: Surface advisory state in the dashboard
 
