@@ -32,8 +32,8 @@ To najkrótszy zakres, który jednocześnie pokrywa primary success criterion i 
 | S-01 | first-calorie-logging-flow | użytkownik może zalogować się, uzupełnić profil, dostać limit kalorii, wpisać posiłek tekstem i zobaczyć dzienną sumę oraz ostrzeżenia | F-01 | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007 | done |
 | S-02 | meal-macros-feedback | użytkownik może po wpisaniu posiłku zobaczyć nie tylko kcal, ale też makroskładniki | S-01 | FR-009 | done |
 | S-03 | remaining-budget-food-suggestions | użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii | S-01 | FR-008 | done |
-| F-03 | evidence-based-target-policy | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu | S-01 | FR-011 | proposed |
-| S-04 | target-pace-calorie-adjustment | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem | F-03, S-01 | FR-010, FR-011 | blocked |
+| F-03 | evidence-based-target-policy | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu | S-01 | FR-011 | done |
+| S-04 | target-pace-calorie-adjustment | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem | F-03, S-01 | FR-010, FR-011 | proposed |
 
 ## Streams
 
@@ -82,7 +82,7 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Przy celu speed nie warto tym blokować startu MVP, ale bez jawnej ścieżki weryfikacji kolejne rozszerzenia mogą rozjechać się z NFR-ami.
-- **Status:** proposed
+- **Status:** done
 
 ### F-03: Polityka bezpiecznych progów zmian masy ciała
 
@@ -147,7 +147,7 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **Unknowns:**
   - Jak mapujemy neutralny komunikat "recommended healthy edge limit for your goal" na finalne teksty UI dla redukcji i zwiekszania masy? — Owner: product + implementation. Block: no.
 - **Risk:** To mocne rozszerzenie wartości produktu, ale wdrożone bez guardrailów zdrowotnych może obniżyć zaufanie użytkownika.
-- **Status:** blocked
+- **Status:** proposed
 
 ## Backlog Handoff
 

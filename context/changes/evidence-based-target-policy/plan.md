@@ -283,6 +283,7 @@ F-03 adds one nullable profile field and no backfill. Existing profiles should r
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
+> Review note: completed lint rows for this change reflect touched-file lint passing during implementation. Full `npm run lint` still fails on the repository-wide CRLF/LF Prettier baseline.
 
 ### Phase 1: Extend the persisted profile contract
 
