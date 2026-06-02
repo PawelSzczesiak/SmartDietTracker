@@ -8,6 +8,7 @@ import MealJournalSection from "@/components/meals/MealJournalSection.astro";
 import ProfileSection from "@/components/profile/ProfileSection.astro";
 import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
+import { getDashboardFlashMessages } from "@/pages/dashboard/flash-messages";
 import { getDailyCalorieWarning, getEffectiveDailyCalorieLimit, getTargetCaloriePolicy } from "@/lib/nutrition-goals";
 import { getNutritionDayWindow } from "@/lib/nutrition-day";
 import {
@@ -32,12 +33,7 @@ const requestContext = createRequestContext(Astro.request);
 const dashboardLoadStartedAt = startRequestTimer();
 const dayWindow = getNutritionDayWindow();
 const supabase = createClient(Astro.request.headers, Astro.cookies);
-const profileError = Astro.url.searchParams.get("profileError");
-const profileSuccess = Astro.url.searchParams.get("profileSuccess");
 const profileToast = Astro.url.searchParams.get("profileToast");
-const mealError = Astro.url.searchParams.get("mealError");
-const mealSuccess = Astro.url.searchParams.get("mealSuccess");
-const mealWarning = Astro.url.searchParams.get("mealWarning");
 const loginToken = Astro.url.searchParams.get("login");
 
 let dashboardError: string | null = null;
@@ -117,6 +113,8 @@ if (user && supabase) {
     hasSupabaseClient: Boolean(supabase),
   });
 }
+
+const flashMessages = getDashboardFlashMessages(Astro.url.searchParams, dashboardError);
 ---
 
 <Layout title="Dashboard">
@@ -137,16 +135,11 @@ if (user && supabase) {
       <FoodSuggestions foodSuggestions={foodSuggestions} />
 
       {
-        [profileError, mealError, mealWarning, profileSuccess, mealSuccess, dashboardError].some(
-          (message) => message != null,
-        ) && (
+        flashMessages.length > 0 && (
           <div class="space-y-3">
-            {dashboardError && <FlashMessage message={dashboardError} />}
-            {profileError && <FlashMessage prefix="Profile" message={profileError} />}
-            {mealError && <FlashMessage prefix="Meals" message={mealError} />}
-            {mealWarning && <FlashMessage prefix="Meals" message={mealWarning} variant="warning" />}
-            {profileSuccess && <FlashMessage message={profileSuccess} variant="success" />}
-            {mealSuccess && <FlashMessage message={mealSuccess} variant="success" />}
+            {flashMessages.map((flash) => (
+              <FlashMessage message={flash.message} prefix={flash.prefix} variant={flash.variant} />
+            ))}
           </div>
         )
       }

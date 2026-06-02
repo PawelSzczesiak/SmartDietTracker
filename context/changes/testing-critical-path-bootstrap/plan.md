@@ -253,28 +253,28 @@ Cover risk #3 with a full boundary matrix and convert Phase 1 cookbook placehold
 
 #### Automated
 
-- [x] 1.1 Dependencies install cleanly with new test packages
-- [x] 1.2 New test command executes successfully
-- [x] 1.3 Lint remains green after config/script changes
-- [x] 1.4 CI workflow includes enforced test gate
+- [x] 1.1 Dependencies install cleanly with new test packages — 2f2b8e7
+- [x] 1.2 New test command executes successfully — 2f2b8e7
+- [x] 1.3 Lint remains green after config/script changes — 2f2b8e7
+- [x] 1.4 CI workflow includes enforced test gate — 2f2b8e7
 
 #### Manual
 
-- [x] 1.5 Local developer flow can run unit+integration tests with one command before opening a PR
-- [x] 1.6 CI output clearly shows failing tests as a blocking quality signal
+- [x] 1.5 Local developer flow can run unit+integration tests with one command before opening a PR — 2f2b8e7
+- [x] 1.6 CI output clearly shows failing tests as a blocking quality signal — 2f2b8e7
 
 ### Phase 2: Add parser contract and failure-path integration coverage
 
 #### Automated
 
-- [ ] 2.1 Parser contract tests pass against fixture corpus
-- [ ] 2.2 Meal route integration tests pass for success and unavailable/error paths
-- [ ] 2.3 Full suite remains green with lint/build
+- [x] 2.1 Parser contract tests pass against fixture corpus
+- [x] 2.2 Meal route integration tests pass for success and unavailable/error paths
+- [x] 2.3 Full suite remains green with lint/build
 
 #### Manual
 
-- [ ] 2.4 Submitting/editing/retrying a meal in local app shows success/warning feedback consistent with test assertions
-- [ ] 2.5 Parser timeout/unavailable scenario never appears as success in dashboard messaging
+- [x] 2.4 Submitting/editing/retrying a meal in local app shows success/warning feedback consistent with test assertions
+- [x] 2.5 Parser timeout/unavailable scenario never appears as success in dashboard messaging
 
 ### Phase 3: Add calorie-policy boundary coverage and cookbook updates
 
