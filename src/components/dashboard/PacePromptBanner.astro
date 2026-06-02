@@ -1,0 +1,79 @@
+---
+import Banner from "@/components/Banner.astro";
+
+interface Props {
+  sessionToken: string | null;
+  userId: string;
+}
+
+const { sessionToken, userId } = Astro.props;
+const activeSessionStorageKey = `pace-prompt-session:${userId}`;
+const dismissStoragePrefix = `pace-prompt-dismissed:${userId}:`;
+---
+
+<div
+  data-dismiss-prefix={dismissStoragePrefix}
+  data-login-param="login"
+  data-session-key={activeSessionStorageKey}
+  data-session-token={sessionToken ?? ""}
+  hidden
+>
+  <Banner variant="warning">
+    <div class="flex flex-col gap-3 text-left sm:flex-row sm:items-center sm:justify-between">
+      <div class="space-y-1">
+        <p class="font-semibold">Set your target pace to unlock goal guidance.</p>
+        <p class="text-sm">
+          Choose slow, normal, or fast in your profile so the dashboard can show the recommended healthy edge for your
+          goal.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="#profile-form">Set pace</a>
+        <button
+          type="button"
+          data-dismiss-banner
+          class="rounded-md border border-current/30 px-3 py-1 text-xs font-semibold transition-opacity hover:opacity-80"
+        >
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </Banner>
+</div>
+
+<script is:inline>
+  const bannerRoot = document.currentScript?.previousElementSibling;
+
+  if (bannerRoot instanceof HTMLElement) {
+    const sessionKey = bannerRoot.dataset.sessionKey;
+    const dismissPrefix = bannerRoot.dataset.dismissPrefix;
+    const sessionToken = bannerRoot.dataset.sessionToken;
+    const loginParam = bannerRoot.dataset.loginParam;
+
+    if (sessionKey && sessionToken) {
+      sessionStorage.setItem(sessionKey, sessionToken);
+
+      if (loginParam) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete(loginParam);
+        history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      }
+    }
+
+    const activeSessionToken = sessionKey ? sessionStorage.getItem(sessionKey) : null;
+    const dismissedKey = activeSessionToken && dismissPrefix ? `${dismissPrefix}${activeSessionToken}` : null;
+
+    if (dismissedKey && sessionStorage.getItem(dismissedKey) !== "true") {
+      bannerRoot.hidden = false;
+
+      const dismissButton = bannerRoot.querySelector("[data-dismiss-banner]");
+      if (dismissButton instanceof HTMLButtonElement) {
+        dismissButton.addEventListener("click", () => {
+          sessionStorage.setItem(dismissedKey, "true");
+          bannerRoot.hidden = true;
+        });
+      }
+    }
+  }
+</script>

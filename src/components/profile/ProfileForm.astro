@@ -8,7 +8,9 @@ interface Props {
 const { profile } = Astro.props;
 ---
 
-<form method="POST" action="/api/profile" class="grid gap-4 md:grid-cols-2">
+<form id="profile-form" method="POST" action="/api/profile" class="grid gap-4 md:grid-cols-2">
+  <input type="hidden" name="previous_target_pace" value={profile?.target_pace ?? ""} />
+
   <label class="block text-sm text-blue-100/80">
     Age
     <input
@@ -31,8 +33,6 @@ const { profile } = Astro.props;
       <option value="">Optional</option>
       <option value="male" selected={profile?.sex === "male"}>Male</option>
       <option value="female" selected={profile?.sex === "female"}>Female</option>
-      <option value="other" selected={profile?.sex === "other"}>Other</option>
-      <option value="prefer_not_to_say" selected={profile?.sex === "prefer_not_to_say"}>Prefer not to say</option>
     </select>
   </label>
 
@@ -75,16 +75,51 @@ const { profile } = Astro.props;
     />
   </label>
 
+  <fieldset class="md:col-span-2">
+    <legend class="mb-2 text-sm text-blue-100/80">Target pace</legend>
+    <div class="space-y-2">
+      <label class="flex items-center gap-3">
+        <input
+          type="radio"
+          name="target_pace"
+          value="slow"
+          checked={profile?.target_pace === "slow"}
+          class="h-4 w-4 cursor-pointer rounded border-white/20 bg-white/10 text-purple-500 focus:ring-purple-400"
+        />
+        <span class="text-sm text-blue-100/80">Slow</span>
+      </label>
+      <label class="flex items-center gap-3">
+        <input
+          type="radio"
+          name="target_pace"
+          value="normal"
+          checked={profile?.target_pace === "normal"}
+          class="h-4 w-4 cursor-pointer rounded border-white/20 bg-white/10 text-purple-500 focus:ring-purple-400"
+        />
+        <span class="text-sm text-blue-100/80">Normal</span>
+      </label>
+      <label class="flex items-center gap-3">
+        <input
+          type="radio"
+          name="target_pace"
+          value="fast"
+          checked={profile?.target_pace === "fast"}
+          class="h-4 w-4 cursor-pointer rounded border-white/20 bg-white/10 text-purple-500 focus:ring-purple-400"
+        />
+        <span class="text-sm text-blue-100/80">Fast</span>
+      </label>
+    </div>
+  </fieldset>
+
   <label class="block text-sm text-blue-100/80">
-    Target pace
+    Activity level
     <select
-      name="target_pace"
+      name="activity_level"
       class="mt-1 w-full rounded-lg border border-white/20 bg-slate-950/40 px-3 py-2 text-white focus:border-purple-400 focus:outline-none"
     >
-      <option value="">Optional</option>
-      <option value="slow" selected={profile?.target_pace === "slow"}>Slow</option>
-      <option value="normal" selected={profile?.target_pace === "normal"}>Normal</option>
-      <option value="fast" selected={profile?.target_pace === "fast"}>Fast</option>
+      <option value="low" selected={profile?.activity_level === "low"}>Low</option>
+      <option value="normal" selected={profile?.activity_level === "normal" || !profile?.activity_level}>Normal</option>
+      <option value="high" selected={profile?.activity_level === "high"}>High</option>
     </select>
   </label>
 

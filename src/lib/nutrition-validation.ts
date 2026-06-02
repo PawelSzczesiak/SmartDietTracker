@@ -1,7 +1,8 @@
 import { z } from "zod";
 
-type ProfileSex = "male" | "female" | "other" | "prefer_not_to_say";
+type ProfileSex = "male" | "female";
 type TargetPace = "slow" | "normal" | "fast";
+type ActivityLevel = "low" | "normal" | "high";
 
 function getFormValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -47,7 +48,7 @@ const profileSchema = z
         const trimmed = value.trim();
         return trimmed === "" ? null : trimmed;
       },
-      z.enum(["male", "female", "other", "prefer_not_to_say"] satisfies [ProfileSex, ...ProfileSex[]]).nullable(),
+      z.enum(["male", "female"] satisfies [ProfileSex, ...ProfileSex[]]).nullable(),
     ),
     current_weight: nullableNumberField("Current weight", { min: 0.01 }),
     height: nullableNumberField("Height", { min: 0.01 }),
@@ -64,6 +65,17 @@ const profileSchema = z
       z.enum(["slow", "normal", "fast"] satisfies [TargetPace, ...TargetPace[]]).nullable(),
     ),
     manual_daily_calorie_limit: nullableNumberField("Manual daily calorie limit", { int: true, min: 1 }),
+    activity_level: z.preprocess(
+      (value) => {
+        if (typeof value !== "string") {
+          return value ?? null;
+        }
+
+        const trimmed = value.trim();
+        return trimmed === "" ? null : trimmed;
+      },
+      z.enum(["low", "normal", "high"] satisfies [ActivityLevel, ...ActivityLevel[]]).nullable(),
+    ),
   })
   .transform((values) => ({
     age: values.age,
@@ -73,6 +85,7 @@ const profileSchema = z
     targetWeight: values.target_weight,
     targetPace: values.target_pace,
     manualDailyCalorieLimit: values.manual_daily_calorie_limit,
+    activityLevel: values.activity_level ?? "normal",
   }));
 
 const mealSchema = z
@@ -123,6 +136,7 @@ export function parseProfileFormData(formData: FormData) {
     target_weight: getFormValue(formData, "target_weight"),
     target_pace: getFormValue(formData, "target_pace"),
     manual_daily_calorie_limit: getFormValue(formData, "manual_daily_calorie_limit"),
+    activity_level: getFormValue(formData, "activity_level"),
   });
 }
 

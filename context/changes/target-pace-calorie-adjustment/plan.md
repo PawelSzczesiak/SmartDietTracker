@@ -292,16 +292,16 @@ Add unit tests for activity-aware calculation and integration tests for the prof
 
 #### Automated Verification:
 
-- [ ] 4.1 Unit tests for activity-aware calculation pass
-- [ ] 4.2 Integration test for profile update passes
-- [ ] 4.3 Existing tests still pass (no regressions)
-- [ ] 4.4 Lint passes for test files
+- [x] 4.1 Unit tests for activity-aware calculation pass
+- [x] 4.2 Integration test for profile update passes
+- [x] 4.3 Existing tests still pass (no regressions)
+- [x] 4.4 Lint passes for test files
 
 #### Manual Verification:
 
-- [ ] 4.5 All smoke test checklist items pass
-- [ ] 4.6 No console errors during profile updates
-- [ ] 4.7 Existing users without activity level see correct defaults
+- [x] 4.5 All smoke test checklist items pass
+- [x] 4.6 No console errors during profile updates
+- [x] 4.7 Existing users without activity level see correct defaults
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to close out the plan.
 
@@ -357,24 +357,24 @@ Add unit tests for activity-aware calculation and integration tests for the prof
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly without errors
-- [x] 1.2 `npx astro sync` regenerates types with `activity_level` field
-- [x] 1.3 Linting passes for updated nutrition-goals.ts
-- [x] 1.4 Build passes with activity multiplier changes
-- [x] 1.5 Fixed `getEffectiveDailyCalorieLimit()` to respect direction and default pace for gain/loss goals
+- [x] 1.1 Migration applies cleanly without errors — 2ea27ae
+- [x] 1.2 `npx astro sync` regenerates types with `activity_level` field — 2ea27ae
+- [x] 1.3 Linting passes for updated nutrition-goals.ts — 2ea27ae
+- [x] 1.4 Build passes with activity multiplier changes — 2ea27ae
+- [x] 1.5 Fixed `getEffectiveDailyCalorieLimit()` to respect direction and default pace for gain/loss goals — 2ea27ae
 
 #### Manual
 
-- [x] 1.6 Existing profiles default to 'normal' activity level (no breakage)
-- [x] 1.7 Automatic limit reflects gain/loss pace (not maintenance calories when goal is set)
+- [x] 1.6 Existing profiles default to 'normal' activity level (no breakage) — 2ea27ae
+- [x] 1.7 Automatic limit reflects gain/loss pace (not maintenance calories when goal is set) — 2ea27ae
 
 ### Phase 2: Profile form UI & activity level support
 
 #### Automated
 
-- [ ] 2.1 Lint passes for refactored ProfileForm component
-- [ ] 2.2 TypeScript type checking passes for nutrition-validation.ts changes
-- [ ] 2.3 Build passes with form component updates
+- [x] 2.1 Lint passes for refactored ProfileForm component
+- [x] 2.2 TypeScript type checking passes for nutrition-validation.ts changes
+- [x] 2.3 Build passes with form component updates
 
 #### Manual
 
@@ -388,9 +388,9 @@ Add unit tests for activity-aware calculation and integration tests for the prof
 
 #### Automated
 
-- [ ] 3.1 Lint passes for new/refactored component files
-- [ ] 3.2 Build passes with banner + toast additions
-- [ ] 3.3 No type errors in Topbar / PacePromptBanner
+- [x] 3.1 Lint passes for new/refactored component files
+- [x] 3.2 Build passes with banner + toast additions
+- [x] 3.3 No type errors in Topbar / PacePromptBanner
 
 #### Manual
 

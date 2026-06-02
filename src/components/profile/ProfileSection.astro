@@ -124,8 +124,9 @@ const paceLabel = getPaceLabel(targetPolicy?.selectedPace ?? null);
           )}
 
           <p class="mt-3 text-sm text-blue-100/70">
-            Changing target pace does not auto-change today's tracked budget. It only updates the recommended healthy
-            edge for your goal.
+            {targetPolicy.activeLimitKind === "manual"
+              ? "Changing target pace does not auto-change today's tracked budget while a manual limit is active. It only updates the recommended healthy edge for your goal."
+              : "Changing target pace updates the automatic daily limit for tracking and also updates the recommended healthy edge for your goal."}
           </p>
         </div>
       )

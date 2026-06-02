@@ -6,12 +6,6 @@ const ACTIVITY_MULTIPLIERS = {
   high: 1.55,
 } as const;
 const KCAL_PER_KILOGRAM = 7700;
-const MINIMUM_HEALTHY_CALORIES = {
-  female: 1200,
-  male: 1500,
-  other: 1200,
-  prefer_not_to_say: 1200,
-} as const;
 const NEAR_LIMIT_RATIO = 0.9;
 const TARGET_PACE_BANDS = {
   gain: {
@@ -27,10 +21,15 @@ const TARGET_PACE_BANDS = {
 } as const;
 
 function getActivityMultiplier(activityLevel: ProfileRecord["activity_level"]): number {
-  if (!activityLevel || activityLevel === "normal") return ACTIVITY_MULTIPLIERS.normal;
-  if (activityLevel === "low") return ACTIVITY_MULTIPLIERS.low;
-  if (activityLevel === "high") return ACTIVITY_MULTIPLIERS.high;
-  return ACTIVITY_MULTIPLIERS.normal;
+  switch (activityLevel) {
+    case "low":
+      return ACTIVITY_MULTIPLIERS.low;
+    case "high":
+      return ACTIVITY_MULTIPLIERS.high;
+    case "normal":
+    default:
+      return ACTIVITY_MULTIPLIERS.normal;
+  }
 }
 
 export type DailyCalorieWarningState = "normal" | "near_limit" | "over_limit" | "unavailable";
@@ -135,10 +134,6 @@ function getMissingFields(profile: ProfileRecord | null) {
     missingFields.push("age");
   }
 
-  if (profile?.sex == null) {
-    missingFields.push("sex");
-  }
-
   if (profile?.current_weight == null) {
     missingFields.push("current weight");
   }
@@ -163,7 +158,7 @@ function getMaintenanceCalories(profile: ProfileRecord | null) {
   return roundCalories(basalMetabolicRate * getActivityMultiplier(profile.activity_level));
 }
 
-function getPaceLabel(pace: TargetPaceMode) {
+export function getPaceLabel(pace: TargetPaceMode) {
   if (pace === "slow") {
     return "Slow";
   }
@@ -175,8 +170,14 @@ function getPaceLabel(pace: TargetPaceMode) {
   return "Fast";
 }
 
-function getMinimumHealthyCalories(sex: NonNullable<ProfileRecord["sex"]>) {
-  return MINIMUM_HEALTHY_CALORIES[sex];
+function getMinimumHealthyCalories(sex: ProfileRecord["sex"]): number {
+  if (sex === "male") {
+    return 1500;
+  }
+  if (sex === "female") {
+    return 1200;
+  }
+  return 1350;
 }
 
 function getDailyCalorieDeltaForPace(weeklyRateKg: number) {
@@ -253,7 +254,7 @@ export function getEffectiveDailyCalorieLimit(profile: ProfileRecord | null): Ef
   const dailyCalorieDelta = getDailyCalorieDeltaForPace(weeklyRateKg);
   const automaticCalories =
     direction === "loss"
-      ? roundCalories(Math.max(getMinimumHealthyCalories(profile.sex), maintenanceCalories - dailyCalorieDelta))
+      ? roundCalories(maintenanceCalories - dailyCalorieDelta)
       : roundCalories(maintenanceCalories + dailyCalorieDelta);
 
   return {

@@ -1,10 +1,33 @@
 import type { APIRoute } from "astro";
 import { attachRequestId, createRequestContext, logRequestEvent } from "@/lib/request-context";
+import { getEffectiveDailyCalorieLimit, getTargetCaloriePolicy, getPaceLabel } from "@/lib/nutrition-goals";
 import { upsertProfileForUser } from "@/lib/nutrition-records";
 import { getValidationMessage, parseProfileFormData } from "@/lib/nutrition-validation";
 import { createClient } from "@/lib/supabase";
 
 export const prerender = false;
+
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (typeof error === "object" && error != null && "message" in error && typeof error.message === "string") {
+    return error.message;
+  }
+
+  return "Unable to save profile";
+}
+
+function parsePreviousTargetPace(formData: FormData) {
+  const value = formData.get("previous_target_pace");
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed === "" ? null : trimmed;
+}
 
 export const POST: APIRoute = async (context) => {
   const requestContext = createRequestContext(context.request);
@@ -42,13 +65,35 @@ export const POST: APIRoute = async (context) => {
     );
   }
 
+  const previousTargetPace = parsePreviousTargetPace(form);
+  const redirectParams = new URLSearchParams();
+
   try {
-    await upsertProfileForUser(supabase, user.id, parsed.data);
+    const savedProfile = await upsertProfileForUser(supabase, user.id, parsed.data);
+
+    if (
+      previousTargetPace != null &&
+      savedProfile.target_pace != null &&
+      previousTargetPace !== savedProfile.target_pace
+    ) {
+      const effectiveLimit = getEffectiveDailyCalorieLimit(savedProfile);
+      const targetPolicy = getTargetCaloriePolicy(savedProfile, effectiveLimit);
+      const paceLabel = getPaceLabel(parsed.data.targetPace);
+      const toastMessage =
+        targetPolicy.kind === "guided"
+          ? `Pace updated to ${paceLabel}. Recommended healthy edge: ${targetPolicy.comparison === "at_least" ? "at least" : "at most"} ${targetPolicy.healthyEdgeCalories} kcal.`
+          : `Pace updated to ${paceLabel}.`;
+
+      redirectParams.set("profileToast", toastMessage);
+    } else {
+      redirectParams.set("profileSuccess", "Profile saved");
+    }
+
+    redirectParams.set("t", `${Date.now()}`);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unable to save profile";
     logRequestEvent("error", "profile.save.failed", requestContext, {
       category: "supabase",
-      message,
+      message: getErrorMessage(error),
     });
     return attachRequestId(
       context.redirect(`/dashboard?profileError=${encodeURIComponent("Unable to save profile")}`),
@@ -60,8 +105,5 @@ export const POST: APIRoute = async (context) => {
     category: "app",
     userId: user.id,
   });
-  return attachRequestId(
-    context.redirect(`/dashboard?profileSuccess=${encodeURIComponent("Profile saved")}`),
-    requestContext.requestId,
-  );
+  return attachRequestId(context.redirect(`/dashboard?${redirectParams.toString()}`), requestContext.requestId);
 };

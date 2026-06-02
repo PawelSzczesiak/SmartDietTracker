@@ -33,7 +33,7 @@ To najkrótszy zakres, który jednocześnie pokrywa primary success criterion i 
 | S-02 | meal-macros-feedback              | użytkownik może po wpisaniu posiłku zobaczyć nie tylko kcal, ale też makroskładniki                                                    | S-01          | FR-009                                                        | done     |
 | S-03 | remaining-budget-food-suggestions | użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii                                        | S-01          | FR-008                                                        | done     |
 | F-03 | evidence-based-target-policy      | (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu                                        | S-01          | FR-011                                                        | done     |
-| S-04 | target-pace-calorie-adjustment    | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem          | F-03, S-01    | FR-010, FR-011                                                | proposed |
+| S-04 | target-pace-calorie-adjustment    | użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem          | F-03, S-01    | FR-010, FR-011                                                | done |
 
 ## Streams
 
@@ -182,3 +182,4 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **S-03: użytkownik może dostać sugestie dodatkowych porcji jedzenia w ramach pozostałego limitu kalorii** — Implemented + reviewed (`impl_reviewed`) on 2026-05-30 → `context/changes/remaining-budget-food-suggestions/`.
 - **F-02: (foundation) zespół ma ścieżkę weryfikacji wydajności i stabilności dla flow posiłku i dashboardu** — Implemented + reviewed on 2026-05-31 → `context/changes/performance-verification-path/`.
 - **F-03: (foundation) zespół ma uzgodnioną politykę bezpiecznych progów zmian masy ciała dla trybów celu** — Implemented + reviewed (`impl_reviewed`) on 2026-05-31 → `context/changes/evidence-based-target-policy/`.
+- **S-04: użytkownik może wybrać tryb spokojnie / normalnie / szybko, a system dostosowuje limit kalorii zgodnie z bezpiecznym zakresem** — Implemented + reviewed (`impl_reviewed`) on 2026-06-02 → `context/changes/target-pace-calorie-adjustment/`.
