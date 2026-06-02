@@ -267,24 +267,24 @@ Cover risk #3 with a full boundary matrix and convert Phase 1 cookbook placehold
 
 #### Automated
 
-- [x] 2.1 Parser contract tests pass against fixture corpus
-- [x] 2.2 Meal route integration tests pass for success and unavailable/error paths
-- [x] 2.3 Full suite remains green with lint/build
+- [x] 2.1 Parser contract tests pass against fixture corpus — dad0809
+- [x] 2.2 Meal route integration tests pass for success and unavailable/error paths — dad0809
+- [x] 2.3 Full suite remains green with lint/build — dad0809
 
 #### Manual
 
-- [x] 2.4 Submitting/editing/retrying a meal in local app shows success/warning feedback consistent with test assertions
-- [x] 2.5 Parser timeout/unavailable scenario never appears as success in dashboard messaging
+- [x] 2.4 Submitting/editing/retrying a meal in local app shows success/warning feedback consistent with test assertions — dad0809
+- [x] 2.5 Parser timeout/unavailable scenario never appears as success in dashboard messaging — dad0809
 
 ### Phase 3: Add calorie-policy boundary coverage and cookbook updates
 
 #### Automated
 
-- [ ] 3.1 Calorie-policy boundary unit matrix passes
-- [ ] 3.2 Policy integration tests pass for profile->dashboard flow
-- [ ] 3.3 Entire quality gate stays green with tests enforced
+- [x] 3.1 Calorie-policy boundary unit matrix passes
+- [x] 3.2 Policy integration tests pass for profile->dashboard flow
+- [x] 3.3 Entire quality gate stays green with tests enforced
 
 #### Manual
 
-- [ ] 3.4 Boundary scenarios match expected dashboard behavior in local run
-- [ ] 3.5 Test-plan cookbook clearly explains how to add new unit/integration tests with Phase 1 conventions
+- [x] 3.4 Boundary scenarios match expected dashboard behavior in local run
+- [x] 3.5 Test-plan cookbook clearly explains how to add new unit/integration tests with Phase 1 conventions
