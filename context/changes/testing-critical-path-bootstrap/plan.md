@@ -280,11 +280,11 @@ Cover risk #3 with a full boundary matrix and convert Phase 1 cookbook placehold
 
 #### Automated
 
-- [x] 3.1 Calorie-policy boundary unit matrix passes
-- [x] 3.2 Policy integration tests pass for profile->dashboard flow
-- [x] 3.3 Entire quality gate stays green with tests enforced
+- [x] 3.1 Calorie-policy boundary unit matrix passes — d2fa146
+- [x] 3.2 Policy integration tests pass for profile->dashboard flow — d2fa146
+- [x] 3.3 Entire quality gate stays green with tests enforced — d2fa146
 
 #### Manual
 
-- [x] 3.4 Boundary scenarios match expected dashboard behavior in local run
-- [x] 3.5 Test-plan cookbook clearly explains how to add new unit/integration tests with Phase 1 conventions
+- [x] 3.4 Boundary scenarios match expected dashboard behavior in local run — d2fa146
+- [x] 3.5 Test-plan cookbook clearly explains how to add new unit/integration tests with Phase 1 conventions — d2fa146
