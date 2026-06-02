@@ -57,7 +57,7 @@ Each row is a discrete rollout phase. Status is orchestrator state and advances 
 
 | Layer | Tool | Version | Notes |
 |---|---|---|---|
-| unit + integration | none yet | n/a | No test runner config and no first-party test files; bootstrap in §3 Phase 1 |
+| unit + integration | Vitest | 3.2.4 | Baseline runner active with Phase 1 bootstrap; CI gate runs `npm run test:run` |
 | API mocking | none yet | n/a | Choose only if needed by selected integration runner in §3 Phase 1 |
 | e2e | none yet | n/a | Add only for critical flows that cannot be protected cheaper |
 | accessibility | none yet | n/a | Consider after baseline test flow exists |

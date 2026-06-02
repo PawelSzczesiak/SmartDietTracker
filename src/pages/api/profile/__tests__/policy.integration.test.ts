@@ -1,4 +1,3 @@
-import type { APIRoute } from "astro";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/request-context", () => ({
@@ -17,19 +16,7 @@ vi.mock("@/lib/nutrition-records", () => ({
 
 import { upsertProfileForUser } from "@/lib/nutrition-records";
 import { POST as profileRoute } from "@/pages/api/profile/index";
-
-function makeProfileContext(formData: FormData): Parameters<APIRoute>[0] {
-  return {
-    request: new Request("http://localhost/api/profile", { method: "POST", body: formData }),
-    locals: {
-      user: {
-        id: "user-1",
-      },
-    },
-    cookies: {},
-    redirect: (location: string) => new Response(null, { status: 302, headers: { Location: location } }),
-  } as unknown as Parameters<APIRoute>[0];
-}
+import { buildPostContext } from "@/test/setup/route-integration";
 
 function baseForm() {
   const form = new FormData();
@@ -67,7 +54,7 @@ describe("profile policy integration", () => {
     form.set("target_pace", "fast");
     form.set("previous_target_pace", "normal");
 
-    const response = await profileRoute(makeProfileContext(form));
+    const response = await profileRoute(buildPostContext("/api/profile", form));
     const location = response.headers.get("Location") ?? "";
 
     expect(location).toContain("profileToast=");
@@ -93,7 +80,7 @@ describe("profile policy integration", () => {
     form.set("target_pace", "normal");
     form.set("previous_target_pace", "normal");
 
-    const response = await profileRoute(makeProfileContext(form));
+    const response = await profileRoute(buildPostContext("/api/profile", form));
     const location = response.headers.get("Location") ?? "";
 
     expect(location).toContain("profileSuccess=");

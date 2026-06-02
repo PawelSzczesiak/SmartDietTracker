@@ -1,4 +1,3 @@
-import type { APIRoute } from "astro";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/request-context", () => ({
@@ -39,22 +38,16 @@ import { parseMealNutrition } from "@/lib/services/meal-parser";
 import { POST as createMealRoute } from "@/pages/api/meals/index";
 import { POST as retryMealRoute } from "@/pages/api/meals/retry";
 import { POST as updateMealRoute } from "@/pages/api/meals/update";
+import { buildPostContext, getRedirectLocation } from "@/test/setup/route-integration";
 
-function makeContext(pathname: string, formData: FormData): Parameters<APIRoute>[0] {
+function getRedirectFlags(response: Response) {
+  const location = getRedirectLocation(response);
+  const params = new URL(location, "http://localhost").searchParams;
   return {
-    request: new Request(`http://localhost${pathname}`, { method: "POST", body: formData }),
-    locals: {
-      user: {
-        id: "user-1",
-      },
-    },
-    cookies: {},
-    redirect: (location: string) => new Response(null, { status: 302, headers: { Location: location } }),
-  } as unknown as Parameters<APIRoute>[0];
-}
-
-function getLocation(response: Response) {
-  return response.headers.get("Location") ?? "";
+    mealSuccess: params.has("mealSuccess"),
+    mealWarning: params.has("mealWarning"),
+    mealError: params.has("mealError"),
+  };
 }
 
 describe("meal route integration semantics", () => {
@@ -84,9 +77,12 @@ describe("meal route integration semantics", () => {
     const form = new FormData();
     form.set("meal_text", "chicken rice bowl");
 
-    const response = await createMealRoute(makeContext("/api/meals", form));
+    const response = await createMealRoute(buildPostContext("/api/meals", form));
+    const flags = getRedirectFlags(response);
 
-    expect(getLocation(response)).toContain("mealSuccess=");
+    expect(flags.mealSuccess).toBe(true);
+    expect(flags.mealWarning).toBe(false);
+    expect(flags.mealError).toBe(false);
     expect(createMealForUser).toHaveBeenCalledWith(
       expect.anything(),
       "user-1",
@@ -104,9 +100,12 @@ describe("meal route integration semantics", () => {
     const form = new FormData();
     form.set("meal_text", "ambiguous meal");
 
-    const response = await createMealRoute(makeContext("/api/meals", form));
+    const response = await createMealRoute(buildPostContext("/api/meals", form));
+    const flags = getRedirectFlags(response);
 
-    expect(getLocation(response)).toContain("mealWarning=");
+    expect(flags.mealWarning).toBe(true);
+    expect(flags.mealSuccess).toBe(false);
+    expect(flags.mealError).toBe(false);
     expect(createMealForUser).toHaveBeenCalledWith(
       expect.anything(),
       "user-1",
@@ -125,9 +124,12 @@ describe("meal route integration semantics", () => {
     form.set("meal_id", "b7e927ad-7ca5-4eb0-a781-005f4de3f324");
     form.set("meal_text", "edited meal");
 
-    const response = await updateMealRoute(makeContext("/api/meals/update", form));
+    const response = await updateMealRoute(buildPostContext("/api/meals/update", form));
+    const flags = getRedirectFlags(response);
 
-    expect(getLocation(response)).toContain("mealWarning=");
+    expect(flags.mealWarning).toBe(true);
+    expect(flags.mealSuccess).toBe(false);
+    expect(flags.mealError).toBe(false);
     expect(updateMealForUser).toHaveBeenCalledWith(
       expect.anything(),
       "user-1",
@@ -157,9 +159,12 @@ describe("meal route integration semantics", () => {
     const form = new FormData();
     form.set("meal_id", "b7e927ad-7ca5-4eb0-a781-005f4de3f324");
 
-    const response = await retryMealRoute(makeContext("/api/meals/retry", form));
+    const response = await retryMealRoute(buildPostContext("/api/meals/retry", form));
+    const flags = getRedirectFlags(response);
 
-    expect(getLocation(response)).toContain("mealSuccess=");
+    expect(flags.mealSuccess).toBe(true);
+    expect(flags.mealWarning).toBe(false);
+    expect(flags.mealError).toBe(false);
     expect(retryMealNutritionForUser).toHaveBeenCalledWith(
       expect.anything(),
       "user-1",
@@ -177,9 +182,12 @@ describe("meal route integration semantics", () => {
     const form = new FormData();
     form.set("meal_id", "b7e927ad-7ca5-4eb0-a781-005f4de3f324");
 
-    const response = await retryMealRoute(makeContext("/api/meals/retry", form));
+    const response = await retryMealRoute(buildPostContext("/api/meals/retry", form));
+    const flags = getRedirectFlags(response);
 
-    expect(getLocation(response)).toContain("mealError=");
+    expect(flags.mealError).toBe(true);
+    expect(flags.mealSuccess).toBe(false);
+    expect(flags.mealWarning).toBe(false);
     expect(retryMealNutritionForUser).not.toHaveBeenCalled();
   });
 });

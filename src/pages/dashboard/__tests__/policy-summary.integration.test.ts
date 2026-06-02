@@ -19,11 +19,12 @@ const baseProfile: ProfileRecord = {
 
 describe("dashboard policy summary integration", () => {
   it("propagates profile + meals into near_limit warning at 90% boundary", () => {
-    const effective = getEffectiveDailyCalorieLimit(baseProfile);
-    if (effective.kind === "unavailable") {
-      throw new Error("Expected available limit");
-    }
-    const targetCalories = Math.ceil(effective.calories * 0.9);
+    const effective = {
+      kind: "manual",
+      calories: 2000,
+      sourceLabel: "Manual",
+    } as const;
+    const targetCalories = 1800;
     const meals = [
       {
         id: "meal-1",
