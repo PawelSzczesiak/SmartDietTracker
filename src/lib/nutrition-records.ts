@@ -53,6 +53,7 @@ export async function upsertProfileForUser(client: ServerClient, userId: string,
     target_weight: input.targetWeight,
     target_pace: input.targetPace,
     manual_daily_calorie_limit: input.manualDailyCalorieLimit,
+    activity_level: input.activityLevel,
   };
 
   const { data, error } = await client.from("profiles").upsert(payload, { onConflict: "user_id" }).select("*").single();

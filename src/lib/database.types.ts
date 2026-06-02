@@ -5,11 +5,12 @@ export interface Database {
         Row: {
           user_id: string;
           age: number | null;
-          sex: "male" | "female" | "other" | "prefer_not_to_say" | null;
+          sex: "male" | "female" | null;
           current_weight: number | null;
           height: number | null;
           target_weight: number | null;
           target_pace: "slow" | "normal" | "fast" | null;
+          activity_level: "low" | "normal" | "high" | null;
           manual_daily_calorie_limit: number | null;
           created_at: string;
           updated_at: string;
@@ -17,11 +18,12 @@ export interface Database {
         Insert: {
           user_id: string;
           age?: number | null;
-          sex?: "male" | "female" | "other" | "prefer_not_to_say" | null;
+          sex?: "male" | "female" | null;
           current_weight?: number | null;
           height?: number | null;
           target_weight?: number | null;
           target_pace?: "slow" | "normal" | "fast" | null;
+          activity_level?: "low" | "normal" | "high" | null;
           manual_daily_calorie_limit?: number | null;
           created_at?: string;
           updated_at?: string;
@@ -29,11 +31,12 @@ export interface Database {
         Update: {
           user_id?: string;
           age?: number | null;
-          sex?: "male" | "female" | "other" | "prefer_not_to_say" | null;
+          sex?: "male" | "female" | null;
           current_weight?: number | null;
           height?: number | null;
           target_weight?: number | null;
           target_pace?: "slow" | "normal" | "fast" | null;
+          activity_level?: "low" | "normal" | "high" | null;
           manual_daily_calorie_limit?: number | null;
           created_at?: string;
           updated_at?: string;

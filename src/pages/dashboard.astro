@@ -2,6 +2,8 @@
 import DashboardHero from "@/components/dashboard/DashboardHero.astro";
 import FlashMessage from "@/components/dashboard/FlashMessage.astro";
 import FoodSuggestions from "@/components/dashboard/FoodSuggestions.astro";
+import PacePromptBanner from "@/components/dashboard/PacePromptBanner.astro";
+import ToastMessage from "@/components/dashboard/ToastMessage.astro";
 import MealJournalSection from "@/components/meals/MealJournalSection.astro";
 import ProfileSection from "@/components/profile/ProfileSection.astro";
 import Layout from "@/layouts/Layout.astro";
@@ -32,9 +34,11 @@ const dayWindow = getNutritionDayWindow();
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const profileError = Astro.url.searchParams.get("profileError");
 const profileSuccess = Astro.url.searchParams.get("profileSuccess");
+const profileToast = Astro.url.searchParams.get("profileToast");
 const mealError = Astro.url.searchParams.get("mealError");
 const mealSuccess = Astro.url.searchParams.get("mealSuccess");
 const mealWarning = Astro.url.searchParams.get("mealWarning");
+const loginToken = Astro.url.searchParams.get("login");
 
 let dashboardError: string | null = null;
 let profile = null;
@@ -120,6 +124,8 @@ if (user && supabase) {
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-6">
       <Topbar />
 
+      {user?.id && profile?.target_pace == null && <PacePromptBanner sessionToken={loginToken} userId={user.id} />}
+
       <DashboardHero
         email={user?.email}
         summary={dailySummary}
@@ -149,6 +155,8 @@ if (user && supabase) {
         <ProfileSection profile={profile} targetPolicy={targetPolicy} />
         <MealJournalSection meals={meals} summary={dailySummary} calorieWarning={calorieWarning} />
       </div>
+
+      {profileToast && <ToastMessage message={profileToast} />}
     </div>
   </div>
 </Layout>

@@ -31,5 +31,5 @@ export const POST: APIRoute = async (context) => {
     );
   }
 
-  return attachRequestId(context.redirect("/"), requestContext.requestId);
+  return attachRequestId(context.redirect(`/dashboard?login=${Date.now()}`), requestContext.requestId);
 };
