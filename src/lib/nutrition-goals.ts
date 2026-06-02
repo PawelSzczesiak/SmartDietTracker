@@ -1,6 +1,10 @@
 import type { DailyMealSummary, ProfileRecord } from "@/lib/nutrition-records";
 
-const ACTIVITY_FACTOR = 1.35;
+const ACTIVITY_MULTIPLIERS = {
+  low: 1.2,
+  normal: 1.375,
+  high: 1.55,
+} as const;
 const KCAL_PER_KILOGRAM = 7700;
 const MINIMUM_HEALTHY_CALORIES = {
   female: 1200,
@@ -22,17 +26,28 @@ const TARGET_PACE_BANDS = {
   },
 } as const;
 
+function getActivityMultiplier(activityLevel: ProfileRecord["activity_level"]): number {
+  if (!activityLevel || activityLevel === "normal") return ACTIVITY_MULTIPLIERS.normal;
+  if (activityLevel === "low") return ACTIVITY_MULTIPLIERS.low;
+  if (activityLevel === "high") return ACTIVITY_MULTIPLIERS.high;
+  return ACTIVITY_MULTIPLIERS.normal;
+}
+
 export type DailyCalorieWarningState = "normal" | "near_limit" | "over_limit" | "unavailable";
 export type EffectiveDailyCalorieLimit =
   | {
       calories: number;
       kind: "automatic";
       sourceLabel: string;
+      recommendedCalories?: number;
+      recommendedLabel?: string;
     }
   | {
       calories: number;
       kind: "manual";
       sourceLabel: string;
+      recommendedCalories?: number;
+      recommendedLabel?: string;
     }
   | {
       calories: null;
@@ -145,7 +160,7 @@ function getMaintenanceCalories(profile: ProfileRecord | null) {
   const basalMetabolicRate =
     10 * profile.current_weight + 6.25 * profile.height - 5 * profile.age + getSexConstant(profile.sex);
 
-  return roundCalories(basalMetabolicRate * ACTIVITY_FACTOR);
+  return roundCalories(basalMetabolicRate * getActivityMultiplier(profile.activity_level));
 }
 
 function getPaceLabel(pace: TargetPaceMode) {
@@ -185,14 +200,6 @@ export function getNutritionGoalDirection(profile: ProfileRecord | null): Nutrit
 }
 
 export function getEffectiveDailyCalorieLimit(profile: ProfileRecord | null): EffectiveDailyCalorieLimit {
-  if (profile?.manual_daily_calorie_limit != null) {
-    return {
-      calories: profile.manual_daily_calorie_limit,
-      kind: "manual",
-      sourceLabel: "Manual limit",
-    };
-  }
-
   const missingFields = getMissingFields(profile);
   const maintenanceCalories = getMaintenanceCalories(profile);
 
@@ -205,8 +212,52 @@ export function getEffectiveDailyCalorieLimit(profile: ProfileRecord | null): Ef
     };
   }
 
+  const direction = getNutritionGoalDirection(profile);
+
+  // If manual limit is set
+  if (profile?.manual_daily_calorie_limit != null) {
+    const result: EffectiveDailyCalorieLimit = {
+      calories: profile.manual_daily_calorie_limit,
+      kind: "manual",
+      sourceLabel: "Manual limit",
+    };
+
+    // If there's also a target_pace, add recommendation
+    if (profile.target_pace != null && (direction === "gain" || direction === "loss")) {
+      const weeklyRateKg = TARGET_PACE_BANDS[direction][profile.target_pace];
+      const dailyCalorieDelta = getDailyCalorieDeltaForPace(weeklyRateKg);
+      const recommendedCalories =
+        direction === "loss"
+          ? roundCalories(Math.max(getMinimumHealthyCalories(profile.sex), maintenanceCalories - dailyCalorieDelta))
+          : roundCalories(maintenanceCalories + dailyCalorieDelta);
+      const paceLabel = getPaceLabel(profile.target_pace).toLowerCase();
+      result.recommendedCalories = recommendedCalories;
+      result.recommendedLabel = `For ${paceLabel} ${direction}, the recommended limit is ${recommendedCalories} kcal.`;
+    }
+
+    return result;
+  }
+
+  // No manual limit - use automatic based on target_pace or direction
+  if (direction === "maintain" || direction === "no_direction" || direction === "unknown") {
+    return {
+      calories: maintenanceCalories,
+      kind: "automatic",
+      sourceLabel: "Automatic estimate",
+    };
+  }
+
+  // Has a goal (gain or loss)
+  const pace = profile.target_pace ?? "normal";
+  const weeklyRateKg = TARGET_PACE_BANDS[direction][pace];
+  const dailyCalorieDelta = getDailyCalorieDeltaForPace(weeklyRateKg);
+  const automaticCalories =
+    direction === "loss"
+      ? roundCalories(Math.max(getMinimumHealthyCalories(profile.sex), maintenanceCalories - dailyCalorieDelta))
+      : roundCalories(maintenanceCalories + dailyCalorieDelta);
+
   return {
-    calories: maintenanceCalories,
+    calories: automaticCalories,
     kind: "automatic",
     sourceLabel: "Automatic estimate",
   };

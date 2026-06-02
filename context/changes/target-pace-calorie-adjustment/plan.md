@@ -357,15 +357,16 @@ Add unit tests for activity-aware calculation and integration tests for the prof
 
 #### Automated
 
-- [ ] 1.1 Migration applies cleanly without errors
-- [ ] 1.2 `npx astro sync` regenerates types with `activity_level` field
-- [ ] 1.3 Linting passes for updated nutrition-goals.ts
-- [ ] 1.4 Build passes with activity multiplier changes
+- [x] 1.1 Migration applies cleanly without errors
+- [x] 1.2 `npx astro sync` regenerates types with `activity_level` field
+- [x] 1.3 Linting passes for updated nutrition-goals.ts
+- [x] 1.4 Build passes with activity multiplier changes
+- [x] 1.5 Fixed `getEffectiveDailyCalorieLimit()` to respect direction and default pace for gain/loss goals
 
 #### Manual
 
-- [ ] 1.5 Existing profiles default to 'normal' activity level (no breakage)
-- [ ] 1.6 Calorie estimates change correctly when activity level is different from 'normal'
+- [x] 1.6 Existing profiles default to 'normal' activity level (no breakage)
+- [x] 1.7 Automatic limit reflects gain/loss pace (not maintenance calories when goal is set)
 
 ### Phase 2: Profile form UI & activity level support
 
@@ -381,6 +382,7 @@ Add unit tests for activity-aware calculation and integration tests for the prof
 - [ ] 2.5 Activity level selector appears on profile form
 - [ ] 2.6 Submitting profile with pace + activity level persists both fields
 - [ ] 2.7 Existing profiles without activity level still work (default applied)
+- [ ] 2.8 Calorie estimates change correctly when activity level is different from 'normal'
 
 ### Phase 3: User guidance (banner + toast)
 
