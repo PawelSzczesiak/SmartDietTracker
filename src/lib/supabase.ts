@@ -15,13 +15,15 @@ export function isSupabaseConfigured() {
 }
 
 export function createClient(requestHeaders: Headers, cookies: AstroCookies): SupabaseClient<Database> | null {
-  if (!isSupabaseConfigured()) {
+  if (SUPABASE_URL == null || SUPABASE_KEY == null) {
     return null;
   }
 
+  const supabaseUrl: string = SUPABASE_URL;
+  const supabaseKey: string = SUPABASE_KEY;
+
   // Supabase SSR still uses createServerClient for cookie-based auth on the server.
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  return createServerClient<Database>(SUPABASE_URL, SUPABASE_KEY, {
+  return createServerClient<Database>(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
         return parseCookieHeader(requestHeaders.get("Cookie") ?? "").map(({ name, value }) => ({

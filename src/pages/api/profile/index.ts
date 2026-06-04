@@ -78,7 +78,8 @@ export const POST: APIRoute = async (context) => {
     ) {
       const effectiveLimit = getEffectiveDailyCalorieLimit(savedProfile);
       const targetPolicy = getTargetCaloriePolicy(savedProfile, effectiveLimit);
-      const paceLabel = getPaceLabel(parsed.data.targetPace);
+      const pace = savedProfile.target_pace;
+      const paceLabel = getPaceLabel(pace);
       const toastMessage =
         targetPolicy.kind === "guided"
           ? `Pace updated to ${paceLabel}. Recommended healthy edge: ${targetPolicy.comparison === "at_least" ? "at least" : "at most"} ${targetPolicy.healthyEdgeCalories} kcal.`

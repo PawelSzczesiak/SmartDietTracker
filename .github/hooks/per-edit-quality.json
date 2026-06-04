@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "command": "node scripts/copilot-hooks/per-edit-quality.mjs lint",
+        "timeoutSec": 120
+      },
+      {
+        "type": "command",
+        "command": "node scripts/copilot-hooks/per-edit-quality.mjs typecheck",
+        "timeoutSec": 180
+      }
+    ]
+  }
+}

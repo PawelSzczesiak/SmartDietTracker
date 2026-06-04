@@ -91,6 +91,7 @@ export const POST: APIRoute = async (context) => {
     });
 
     if (parserResult.status === "unavailable") {
+      // Keep the degraded-path warning explicit so the dashboard never looks like a clean success.
       logRequestEvent("warn", "meals.create.saved_without_nutrition", requestContext, {
         category: "parser",
         detail: parserResult.detail,

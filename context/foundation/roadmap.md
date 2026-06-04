@@ -3,7 +3,7 @@ project: SmartDietTracker
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-05-31
+updated: 2026-06-02
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -147,7 +147,7 @@ Co jest już na miejscu w codebase na dzień 2026-05-25.
 - **Unknowns:**
   - Jak mapujemy neutralny komunikat "recommended healthy edge limit for your goal" na finalne teksty UI dla redukcji i zwiekszania masy? — Owner: product + implementation. Block: no.
 - **Risk:** To mocne rozszerzenie wartości produktu, ale wdrożone bez guardrailów zdrowotnych może obniżyć zaufanie użytkownika.
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
