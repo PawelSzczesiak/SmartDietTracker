@@ -33,7 +33,7 @@ function isMissingRowError(error: unknown) {
   return typeof error === "object" && error != null && "code" in error && error.code === "PGRST116";
 }
 
-export async function getProfileForUser(client: ServerClient, userId: string) {
+export async function getProfileForUser(client: ServerClient, userId: string): Promise<ProfileRecord | null> {
   const { data, error } = await client.from("profiles").select("*").eq("user_id", userId).maybeSingle();
 
   if (error) {
@@ -43,7 +43,11 @@ export async function getProfileForUser(client: ServerClient, userId: string) {
   return data;
 }
 
-export async function upsertProfileForUser(client: ServerClient, userId: string, input: ProfileFormInput) {
+export async function upsertProfileForUser(
+  client: ServerClient,
+  userId: string,
+  input: ProfileFormInput,
+): Promise<ProfileRecord> {
   const payload: Database["public"]["Tables"]["profiles"]["Insert"] = {
     user_id: userId,
     age: input.age,
@@ -201,7 +205,7 @@ export async function updateMealForUser(
   return data;
 }
 
-export async function deleteMealForUser(client: ServerClient, userId: string, mealId: string) {
+export async function deleteMealForUser(client: ServerClient, userId: string, mealId: string): Promise<{ id: string }> {
   const { data, error } = await client
     .from("meals")
     .delete()
@@ -221,7 +225,7 @@ export async function deleteMealForUser(client: ServerClient, userId: string, me
   return data;
 }
 
-export async function listMealsForUser(client: ServerClient, userId: string, limit = 10) {
+export async function listMealsForUser(client: ServerClient, userId: string, limit = 10): Promise<MealRecord[]> {
   const { data, error } = await client
     .from("meals")
     .select("*")
@@ -242,7 +246,7 @@ export async function listMealsForUserOnDay(
   dayWindow: NutritionDayWindow,
   // MVP cap: daily totals computed from this list will undercount if a user logs more than 50 meals in a day.
   limit = 50,
-) {
+): Promise<MealRecord[]> {
   const { data, error } = await client
     .from("meals")
     .select("*")

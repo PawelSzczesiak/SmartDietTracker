@@ -48,7 +48,7 @@ Each row is a discrete rollout phase. Status is orchestrator state and advances 
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
-| 1 | Critical-path bootstrap | Bootstrap test baseline and protect highest business-risk flows first | #1, #2, #3 | unit + integration | change opened | context/changes/testing-critical-path-bootstrap/ |
+| 1 | Critical-path bootstrap | Bootstrap test baseline and protect highest business-risk flows first | #1, #2, #3 | unit + integration | complete | context/changes/testing-critical-path-bootstrap/ |
 | 2 | Integration around hot-spots | Catch API/dashboard ownership and state-sync regressions in high-churn areas | #4, #5 | integration | not started | — |
 | 3 | AI/runtime abuse guardrails | Add focused safeguards for costly parser usage and selective runtime checks | #6, cross-cutting | integration + selective AI-native review | not started | — |
 | 4 | Quality-gates wiring | Lock required quality floor in local + CI gates | cross-cutting | gates | not started | — |

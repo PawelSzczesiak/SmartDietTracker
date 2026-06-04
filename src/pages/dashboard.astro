@@ -16,6 +16,7 @@ import {
   getProfileForUser,
   listMealsForUserOnDay,
   listSuccessfulMealsForUser,
+  type ProfileRecord,
   type MealRecord,
 } from "@/lib/nutrition-records";
 import {
@@ -37,7 +38,7 @@ const profileToast = Astro.url.searchParams.get("profileToast");
 const loginToken = Astro.url.searchParams.get("login");
 
 let dashboardError: string | null = null;
-let profile = null;
+let profile: ProfileRecord | null = null;
 let meals: MealRecord[] = [];
 let successfulMeals: MealRecord[] = [];
 let dailySummary = getDailyMealSummary([]);

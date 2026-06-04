@@ -127,6 +127,24 @@ function getSexConstant(sex: ProfileRecord["sex"]) {
   return -78;
 }
 
+type MaintenanceProfile = ProfileRecord & {
+  current_weight: number;
+  height: number;
+  age: number;
+  sex: NonNullable<ProfileRecord["sex"]>;
+  activity_level: NonNullable<ProfileRecord["activity_level"]>;
+};
+
+function hasMaintenanceFields(profile: ProfileRecord): profile is MaintenanceProfile {
+  return (
+    profile.current_weight != null &&
+    profile.height != null &&
+    profile.age != null &&
+    profile.sex != null &&
+    profile.activity_level != null
+  );
+}
+
 function getMissingFields(profile: ProfileRecord | null) {
   const missingFields: string[] = [];
 
@@ -146,16 +164,18 @@ function getMissingFields(profile: ProfileRecord | null) {
 }
 
 function getMaintenanceCalories(profile: ProfileRecord | null) {
-  const missingFields = getMissingFields(profile);
-
-  if (missingFields.length > 0 || profile == null) {
+  const currentProfile = profile;
+  if (currentProfile == null || !hasMaintenanceFields(currentProfile)) {
     return null;
   }
 
   const basalMetabolicRate =
-    10 * profile.current_weight + 6.25 * profile.height - 5 * profile.age + getSexConstant(profile.sex);
+    10 * currentProfile.current_weight +
+    6.25 * currentProfile.height -
+    5 * currentProfile.age +
+    getSexConstant(currentProfile.sex);
 
-  return roundCalories(basalMetabolicRate * getActivityMultiplier(profile.activity_level));
+  return roundCalories(basalMetabolicRate * getActivityMultiplier(currentProfile.activity_level));
 }
 
 export function getPaceLabel(pace: TargetPaceMode) {
@@ -201,8 +221,18 @@ export function getNutritionGoalDirection(profile: ProfileRecord | null): Nutrit
 }
 
 export function getEffectiveDailyCalorieLimit(profile: ProfileRecord | null): EffectiveDailyCalorieLimit {
-  const missingFields = getMissingFields(profile);
-  const maintenanceCalories = getMaintenanceCalories(profile);
+  const currentProfile = profile;
+  if (currentProfile == null) {
+    return {
+      calories: null,
+      kind: "unavailable",
+      missingFields: [],
+      sourceLabel: "Complete profile to unlock calorie limit",
+    };
+  }
+
+  const missingFields = getMissingFields(currentProfile);
+  const maintenanceCalories = getMaintenanceCalories(currentProfile);
 
   if (missingFields.length > 0 || maintenanceCalories == null) {
     return {
@@ -213,25 +243,27 @@ export function getEffectiveDailyCalorieLimit(profile: ProfileRecord | null): Ef
     };
   }
 
-  const direction = getNutritionGoalDirection(profile);
+  const direction = getNutritionGoalDirection(currentProfile);
 
   // If manual limit is set
-  if (profile?.manual_daily_calorie_limit != null) {
+  if (currentProfile.manual_daily_calorie_limit != null) {
     const result: EffectiveDailyCalorieLimit = {
-      calories: profile.manual_daily_calorie_limit,
+      calories: currentProfile.manual_daily_calorie_limit,
       kind: "manual",
       sourceLabel: "Manual limit",
     };
 
     // If there's also a target_pace, add recommendation
-    if (profile.target_pace != null && (direction === "gain" || direction === "loss")) {
-      const weeklyRateKg = TARGET_PACE_BANDS[direction][profile.target_pace];
+    if (currentProfile.target_pace != null && (direction === "gain" || direction === "loss")) {
+      const weeklyRateKg = TARGET_PACE_BANDS[direction][currentProfile.target_pace];
       const dailyCalorieDelta = getDailyCalorieDeltaForPace(weeklyRateKg);
       const recommendedCalories =
         direction === "loss"
-          ? roundCalories(Math.max(getMinimumHealthyCalories(profile.sex), maintenanceCalories - dailyCalorieDelta))
+          ? roundCalories(
+              Math.max(getMinimumHealthyCalories(currentProfile.sex), maintenanceCalories - dailyCalorieDelta),
+            )
           : roundCalories(maintenanceCalories + dailyCalorieDelta);
-      const paceLabel = getPaceLabel(profile.target_pace).toLowerCase();
+      const paceLabel = getPaceLabel(currentProfile.target_pace).toLowerCase();
       result.recommendedCalories = recommendedCalories;
       result.recommendedLabel = `For ${paceLabel} ${direction}, the recommended limit is ${recommendedCalories} kcal.`;
     }
@@ -249,7 +281,7 @@ export function getEffectiveDailyCalorieLimit(profile: ProfileRecord | null): Ef
   }
 
   // Has a goal (gain or loss)
-  const pace = profile.target_pace ?? "normal";
+  const pace = currentProfile.target_pace ?? "normal";
   const weeklyRateKg = TARGET_PACE_BANDS[direction][pace];
   const dailyCalorieDelta = getDailyCalorieDeltaForPace(weeklyRateKg);
   const automaticCalories =
@@ -268,10 +300,30 @@ export function getTargetCaloriePolicy(
   profile: ProfileRecord | null,
   effectiveLimit: EffectiveDailyCalorieLimit,
 ): TargetCaloriePolicy {
-  const missingFields = getMissingFields(profile);
-  const maintenanceCalories = getMaintenanceCalories(profile);
+  const currentProfile = profile;
   const activeLimitCalories = effectiveLimit.kind === "unavailable" ? null : effectiveLimit.calories;
-  const direction = getNutritionGoalDirection(profile);
+  if (currentProfile == null) {
+    return {
+      kind: "incomplete",
+      activeLimitCalories,
+      activeLimitKind: effectiveLimit.kind,
+      activeLimitSourceLabel: effectiveLimit.sourceLabel,
+      advisoryLabel: "Complete profile fields to unlock evidence-based goal guidance.",
+      boundaryLabel: null,
+      comparison: null,
+      direction: "unknown",
+      healthyEdgeClamped: false,
+      healthyEdgeCalories: null,
+      healthyEdgeLabel: null,
+      missingFields: [],
+      selectedPace: null,
+      weeklyRateKg: null,
+    };
+  }
+
+  const missingFields = getMissingFields(currentProfile);
+  const maintenanceCalories = getMaintenanceCalories(currentProfile);
+  const direction = getNutritionGoalDirection(currentProfile);
 
   if (missingFields.length > 0 || maintenanceCalories == null || direction === "unknown") {
     return {
@@ -287,7 +339,7 @@ export function getTargetCaloriePolicy(
       healthyEdgeCalories: null,
       healthyEdgeLabel: null,
       missingFields,
-      selectedPace: profile?.target_pace ?? null,
+      selectedPace: currentProfile.target_pace,
       weeklyRateKg: null,
     };
   }
@@ -305,7 +357,7 @@ export function getTargetCaloriePolicy(
       healthyEdgeClamped: false,
       healthyEdgeCalories: null,
       healthyEdgeLabel: null,
-      selectedPace: profile.target_pace,
+      selectedPace: currentProfile.target_pace,
       weeklyRateKg: null,
     };
   }
@@ -323,12 +375,12 @@ export function getTargetCaloriePolicy(
       healthyEdgeClamped: false,
       healthyEdgeCalories: null,
       healthyEdgeLabel: null,
-      selectedPace: profile.target_pace,
+      selectedPace: currentProfile.target_pace,
       weeklyRateKg: null,
     };
   }
 
-  if (profile.target_pace == null) {
+  if (currentProfile.target_pace == null) {
     return {
       kind: "pace_missing",
       activeLimitCalories,
@@ -346,11 +398,11 @@ export function getTargetCaloriePolicy(
     };
   }
 
-  const weeklyRateKg = TARGET_PACE_BANDS[direction][profile.target_pace];
+  const weeklyRateKg = TARGET_PACE_BANDS[direction][currentProfile.target_pace];
   const dailyCalorieDelta = getDailyCalorieDeltaForPace(weeklyRateKg);
   const rawHealthyEdgeCalories =
     direction === "loss" ? maintenanceCalories - dailyCalorieDelta : maintenanceCalories + dailyCalorieDelta;
-  const minimumHealthyCalories = getMinimumHealthyCalories(profile.sex);
+  const minimumHealthyCalories = getMinimumHealthyCalories(currentProfile.sex);
   const healthyEdgeCalories =
     direction === "loss"
       ? roundCalories(Math.max(minimumHealthyCalories, rawHealthyEdgeCalories))
@@ -370,7 +422,7 @@ export function getTargetCaloriePolicy(
     direction === "loss"
       ? `Set at least ${healthyEdgeCalories} kcal to stay within the recommended healthy edge for your goal.`
       : `Set at most ${healthyEdgeCalories} kcal to stay within the recommended healthy edge for your goal.`;
-  const paceLabel = getPaceLabel(profile.target_pace).toLowerCase();
+  const paceLabel = getPaceLabel(currentProfile.target_pace).toLowerCase();
   const advisoryLabel =
     comparisonStatus === "within_healthy_edge"
       ? `${effectiveLimit.sourceLabel} stays within the recommended healthy edge for ${paceLabel} ${direction}.`
@@ -389,7 +441,7 @@ export function getTargetCaloriePolicy(
     healthyEdgeClamped,
     healthyEdgeCalories,
     healthyEdgeLabel,
-    selectedPace: profile.target_pace,
+    selectedPace: currentProfile.target_pace,
     weeklyRateKg,
   };
 }

@@ -35,7 +35,7 @@ describe("dashboard policy summary integration", () => {
         protein: 30,
         carbs: 80,
         fat: 20,
-        parser_status: "success",
+        parser_status: "success" as const,
         parser_error: null,
         parser_attempted_at: "2026-06-02T12:00:00.000Z",
         created_at: "2026-06-02T12:00:00.000Z",
