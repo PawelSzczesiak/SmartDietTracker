@@ -1,7 +1,8 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	// Base config is for local development and preview-style work only.
-	"name": "smart-diet-tracker-local",
+	// Base config uses the production worker name; dev can override it below.
+	"name": "smart-diet-tracker",
+	"account_id": "319cd490c6621451867f098e86a7123d",
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"compatibility_date": "2026-05-08",
 	"compatibility_flags": [
@@ -16,6 +17,9 @@
 		"enabled": true,
 	},
 	"env": {
+		"development": {
+			"name": "smart-diet-tracker-local"
+		},
 		"production": {
 			"name": "smart-diet-tracker",
 		},
