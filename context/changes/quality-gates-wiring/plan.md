@@ -164,21 +164,21 @@ None. This phase only adds/renames command wiring and updates documentation.
 
 #### Automated
 
-- [x] 1.1 Add a first-class `typecheck` command to the npm script surface.
-- [x] 1.2 Route the per-edit quality hook through `npm run typecheck`.
+- [x] 1.1 Add a first-class `typecheck` command to the npm script surface. — 750ed2c
+- [x] 1.2 Route the per-edit quality hook through `npm run typecheck`. — 750ed2c
 
 #### Manual
 
-- [x] 1.3 Confirm a TypeScript edit triggers the typecheck gate through the shared command.
+- [x] 1.3 Confirm a TypeScript edit triggers the typecheck gate through the shared command. — 750ed2c
 
 ### Phase 2: Wire CI and documentation to the new gate set
 
 #### Automated
 
-- [ ] 2.1 Insert `npm run typecheck` into the existing CI job after `npx astro sync`.
-- [ ] 2.2 Refresh the repo guidance docs so they describe the current test and gate commands.
-- [ ] 2.3 Mark Phase 4 complete in `context/foundation/test-plan.md`.
+- [x] 2.1 Insert `npm run typecheck` into the existing CI job after `npx astro sync`.
+- [x] 2.2 Refresh the repo guidance docs so they describe the current test and gate commands.
+- [x] 2.3 Mark Phase 4 complete in `context/foundation/test-plan.md`.
 
 #### Manual
 
-- [ ] 2.4 Review the updated docs and rollout plan for consistency with the new gate order.
+- [x] 2.4 Review the updated docs and rollout plan for consistency with the new gate order.

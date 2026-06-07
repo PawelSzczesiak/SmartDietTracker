@@ -14,6 +14,7 @@ This repository is an Astro 6 server-rendered app deployed to Cloudflare Workers
 
 - `npm install` installs dependencies.
 - `npm run dev` runs Astro dev server on the Cloudflare workerd runtime.
+- `npm run typecheck` runs Astro type checking.
 - `npm run lint` runs ESLint (type-aware config in @eslint.config.js).
 - `npm run lint:fix` applies auto-fixes.
 - `npm run build` creates the production SSR build.
@@ -28,8 +29,8 @@ This repository is an Astro 6 server-rendered app deployed to Cloudflare Workers
 
 ## Testing And CI Gate
 
-- There is no first-party test suite or `test` script in @package.json right now.
-- CI in @.github/workflows/ci.yml runs: `npm ci`, `npx astro sync`, `npm run lint`, and `npm run build` on pushes/PRs to `master`.
+- The repo has first-party Vitest scripts in @package.json: `test`, `test:watch`, and `test:run`.
+- CI in @.github/workflows/ci.yml runs: `npm ci`, `npx astro sync`, `npm run typecheck`, `npm run test:run`, `npm run lint`, and `npm run build` on pushes/PRs to `master`.
 
 ## Commit And PR Guidelines
 

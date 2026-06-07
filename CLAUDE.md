@@ -5,6 +5,7 @@ This file provides guidance to AI Agent when working with code in this repositor
 ## Commands
 
 - `npm run dev` — start dev server (Cloudflare workerd runtime)
+- `npm run typecheck` — Astro type checking
 - `npm run build` — production build (SSR via `@astrojs/cloudflare`)
 - `npm run preview` — preview production build
 - `npm run lint` — ESLint with type-checked rules
@@ -51,4 +52,4 @@ Full server-side rendering (`output: "server"` in astro.config.mjs). All pages a
 
 ## CI
 
-GitHub Actions workflow (`.github/workflows/ci.yml`) runs lint + build on every push and PR to master. Requires `SUPABASE_URL` and `SUPABASE_KEY` repository secrets for the build step.
+GitHub Actions workflow (`.github/workflows/ci.yml`) runs `npm ci`, `npx astro sync`, `npm run typecheck`, `npm run test:run`, `npm run lint`, and `npm run build` on every push and PR to master. Requires `SUPABASE_URL` and `SUPABASE_KEY` repository secrets for the build step.
