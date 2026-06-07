@@ -133,19 +133,19 @@ None. This change only adds/extends tests.
 
 #### Automated
 
-- [x] 1.1 Extend the dashboard flash integration cases so mixed query-param combinations keep error-first ordering and correct variants.
-- [x] 1.2 Lock the dashboard flash helper contract to the existing prefix/variant mapping used by the page.
+- [x] 1.1 Extend the dashboard flash integration cases so mixed query-param combinations keep error-first ordering and correct variants. — 2321447
+- [x] 1.2 Lock the dashboard flash helper contract to the existing prefix/variant mapping used by the page. — 2321447
 
 #### Manual
 
-- [ ] 1.3 Confirm the dashboard banner order in the browser matches the tested priority for representative flash states.
+- [x] 1.3 Confirm the dashboard banner order in the browser matches the tested priority for representative flash states. — 2321447
 
 ### Phase 2: Harden profile route boundary checks
 
 #### Automated
 
-- [ ] 2.1 Extend the profile route integration coverage to assert unauthenticated redirects land on sign-in without a false success/toast flag.
-- [ ] 2.2 Extend the profile route integration coverage to assert config-missing redirects surface `profileError` while preserving the happy-path redirect contract.
+- [x] 2.1 Extend the profile route integration coverage to assert unauthenticated redirects land on sign-in without a false success/toast flag.
+- [x] 2.2 Extend the profile route integration coverage to assert config-missing redirects surface `profileError` while preserving the happy-path redirect contract.
 
 #### Manual
 
