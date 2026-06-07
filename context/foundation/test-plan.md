@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-06-02
+> Last updated: 2026-06-07
 
 ## 1. Strategy
 
@@ -49,15 +49,15 @@ Each row is a discrete rollout phase. Status is orchestrator state and advances 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
 | 1 | Critical-path bootstrap | Bootstrap test baseline and protect highest business-risk flows first | #1, #2, #3 | unit + integration | complete | context/changes/testing-critical-path-bootstrap/ |
-| 2 | Integration around hot-spots | Catch API/dashboard ownership and state-sync regressions in high-churn areas | #4, #5 | integration | not started | — |
-| 3 | AI/runtime abuse guardrails | Add focused safeguards for costly parser usage and selective runtime checks | #6, cross-cutting | integration + selective AI-native review | not started | — |
-| 4 | Quality-gates wiring | Lock required quality floor in local + CI gates | cross-cutting | gates | not started | — |
+| 2 | Integration around hot-spots | Catch API/dashboard ownership and state-sync regressions in high-churn areas | #4, #5 | integration | complete | context/changes/dashboard-profile-hot-spot-coverage/ |
+| 3 | AI/runtime abuse guardrails | Add focused safeguards for costly parser usage and selective runtime checks | #6, cross-cutting | integration + selective AI-native review | complete | context/changes/parser-abuse-guardrails/ |
+| 4 | Quality-gates wiring | Lock required quality floor in local + CI gates | cross-cutting | gates | complete | context/changes/quality-gates-wiring/ |
 
 ## 4. Stack
 
 | Layer | Tool | Version | Notes |
 |---|---|---|---|
-| unit + integration | Vitest | 3.2.4 | Baseline runner active with Phase 1 bootstrap; CI gate runs `npm run test:run` |
+| unit + integration | Vitest | 3.2.4 | Baseline runner active with Phase 1 bootstrap; CI gate runs `npm run typecheck`, `npm run test:run`, `npm run lint`, and `npm run build` |
 | API mocking | none yet | n/a | Choose only if needed by selected integration runner in §3 Phase 1 |
 | e2e | none yet | n/a | Add only for critical flows that cannot be protected cheaper |
 | accessibility | none yet | n/a | Consider after baseline test flow exists |
@@ -143,9 +143,9 @@ TBD — see §3 Phase 3 for resource-abuse and fallback-behavior pattern.
 
 ## 8. Freshness Ledger
 
-- Strategy (§1–§5) last reviewed: 2026-06-02
-- Stack versions last verified: 2026-06-02
-- AI-native tool references last verified: 2026-06-02
+- Strategy (§1–§5) last reviewed: 2026-06-07
+- Stack versions last verified: 2026-06-07
+- AI-native tool references last verified: 2026-06-07
 
 Refresh (`/10x-test-plan --refresh`) when:
 

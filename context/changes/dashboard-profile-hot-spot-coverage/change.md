@@ -1,7 +1,7 @@
 ---
 change_id: dashboard-profile-hot-spot-coverage
 title: Dashboard and profile hot-spot integration coverage
-status: implemented
+status: impl_reviewed
 created: 2026-06-07
 updated: 2026-06-07
 archived_at: null

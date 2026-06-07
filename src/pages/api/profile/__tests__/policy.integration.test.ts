@@ -40,9 +40,15 @@ function buildUnauthenticatedContext(pathname: string, formData: FormData) {
   } as Parameters<typeof profileRoute>[0];
 }
 
+function getRedirectUrl(response: Response) {
+  const location = response.headers.get("Location") ?? "";
+  return new URL(location, "http://localhost");
+}
+
 describe("profile policy integration", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
+    vi.mocked(createClient).mockReturnValue({ mocked: true } as never);
   });
 
   it("returns profileToast when target pace changes", async () => {
@@ -65,20 +71,21 @@ describe("profile policy integration", () => {
     form.set("previous_target_pace", "normal");
 
     const response = await profileRoute(buildPostContext("/api/profile", form));
-    const location = response.headers.get("Location") ?? "";
+    const location = getRedirectUrl(response);
 
-    expect(location).toContain("profileToast=");
-    expect(location).not.toContain("profileError=");
+    expect(location.pathname).toBe("/dashboard");
+    expect(location.searchParams.get("profileToast")).toBeTruthy();
+    expect(location.searchParams.get("profileError")).toBeNull();
   });
 
   it("redirects unauthenticated requests to sign-in", async () => {
     const form = baseForm();
     const response = await profileRoute(buildUnauthenticatedContext("/api/profile", form));
-    const location = response.headers.get("Location") ?? "";
+    const location = getRedirectUrl(response);
 
-    expect(location).toContain("/auth/signin");
-    expect(location).not.toContain("profileSuccess=");
-    expect(location).not.toContain("profileToast=");
+    expect(location.pathname).toBe("/auth/signin");
+    expect(location.searchParams.get("profileSuccess")).toBeNull();
+    expect(location.searchParams.get("profileToast")).toBeNull();
   });
 
   it("returns profileError when supabase configuration is missing", async () => {
@@ -86,11 +93,12 @@ describe("profile policy integration", () => {
 
     const form = baseForm();
     const response = await profileRoute(buildPostContext("/api/profile", form));
-    const location = response.headers.get("Location") ?? "";
+    const location = getRedirectUrl(response);
 
-    expect(location).toContain("profileError=Supabase%20is%20not%20configured");
-    expect(location).not.toContain("profileSuccess=");
-    expect(location).not.toContain("profileToast=");
+    expect(location.pathname).toBe("/dashboard");
+    expect(location.searchParams.get("profileError")).toBe("Supabase is not configured");
+    expect(location.searchParams.get("profileSuccess")).toBeNull();
+    expect(location.searchParams.get("profileToast")).toBeNull();
   });
 
   it("returns profileSuccess when pace is unchanged", async () => {
@@ -113,9 +121,10 @@ describe("profile policy integration", () => {
     form.set("previous_target_pace", "normal");
 
     const response = await profileRoute(buildPostContext("/api/profile", form));
-    const location = response.headers.get("Location") ?? "";
+    const location = getRedirectUrl(response);
 
-    expect(location).toContain("profileSuccess=");
-    expect(location).not.toContain("profileToast=");
+    expect(location.pathname).toBe("/dashboard");
+    expect(location.searchParams.get("profileSuccess")).toBe("Profile saved");
+    expect(location.searchParams.get("profileToast")).toBeNull();
   });
 });
