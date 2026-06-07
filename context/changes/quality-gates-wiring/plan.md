@@ -175,10 +175,10 @@ None. This phase only adds/renames command wiring and updates documentation.
 
 #### Automated
 
-- [x] 2.1 Insert `npm run typecheck` into the existing CI job after `npx astro sync`.
-- [x] 2.2 Refresh the repo guidance docs so they describe the current test and gate commands.
-- [x] 2.3 Mark Phase 4 complete in `context/foundation/test-plan.md`.
+- [x] 2.1 Insert `npm run typecheck` into the existing CI job after `npx astro sync`. — f17faf2
+- [x] 2.2 Refresh the repo guidance docs so they describe the current test and gate commands. — f17faf2
+- [x] 2.3 Mark Phase 4 complete in `context/foundation/test-plan.md`. — f17faf2
 
 #### Manual
 
-- [x] 2.4 Review the updated docs and rollout plan for consistency with the new gate order.
+- [x] 2.4 Review the updated docs and rollout plan for consistency with the new gate order. — f17faf2
