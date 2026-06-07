@@ -144,9 +144,9 @@ None. This change only adds/extends tests.
 
 #### Automated
 
-- [x] 2.1 Extend the profile route integration coverage to assert unauthenticated redirects land on sign-in without a false success/toast flag.
-- [x] 2.2 Extend the profile route integration coverage to assert config-missing redirects surface `profileError` while preserving the happy-path redirect contract.
+- [x] 2.1 Extend the profile route integration coverage to assert unauthenticated redirects land on sign-in without a false success/toast flag. — a2bf2cf
+- [x] 2.2 Extend the profile route integration coverage to assert config-missing redirects surface `profileError` while preserving the happy-path redirect contract. — a2bf2cf
 
 #### Manual
 
-- [ ] 2.3 Confirm the profile form redirect targets and flash params in signed-in and signed-out local runs.
+- [x] 2.3 Confirm the profile form redirect targets and flash params in signed-in and signed-out local runs. — a2bf2cf
