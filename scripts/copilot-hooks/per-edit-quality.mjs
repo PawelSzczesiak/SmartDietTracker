@@ -19,11 +19,11 @@ if (toolName !== "create" && toolName !== "edit") {
 
 const isWindows = process.platform === "win32";
 const result = isWindows
-  ? spawnSync("cmd.exe", ["/d", "/s", "/c", mode === "typecheck" ? "npx astro check" : "npm run lint"], {
+  ? spawnSync("cmd.exe", ["/d", "/s", "/c", mode === "typecheck" ? "npm run typecheck" : "npm run lint"], {
       encoding: "utf8",
       maxBuffer: 1024 * 1024,
     })
-  : spawnSync(mode === "typecheck" ? "npx" : "npm", mode === "typecheck" ? ["astro", "check"] : ["run", "lint"], {
+  : spawnSync("npm", mode === "typecheck" ? ["run", "typecheck"] : ["run", "lint"], {
       encoding: "utf8",
       maxBuffer: 1024 * 1024,
     });
